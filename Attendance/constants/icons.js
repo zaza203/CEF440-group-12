@@ -12,6 +12,17 @@ import report from "../assets/icons/report.png"
 import profile from "../assets/icons/profile.png"
 import eye from "../assets/icons/eye.png"
 import eyehide from "../assets/icons/eye-hide.png"
+import regStudent from "../assets/icons/register.png"
+import addAdmin from "../assets/icons/addAdmin.png"
+import addLecturer from "../assets/icons/addLecturer.png"
+import addSession from "../assets/icons/addSession.png"
+import view from "../assets/icons/view.png"
+import listView from "../assets/icons/listView.png"
+import arrowRight from "../assets/icons/arrowRight.png"
+import history from "../assets/icons/history.png"
+import historyManage from "../assets/icons/historyManage.png"
+import settings from "../assets/icons/settings.png"
+
 
 export default {
     leftArrow,
@@ -27,5 +38,15 @@ export default {
     profile,
     dashboard,
     eye,
-    eyehide
+    eyehide,
+    regStudent,
+    addAdmin,
+    addLecturer,
+    addSession,
+    view,
+    listView,
+    arrowRight,
+    history,
+    historyManage,
+    settings,
 }

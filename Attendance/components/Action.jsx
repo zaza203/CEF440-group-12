@@ -1,13 +1,24 @@
-import { View, Text, Image } from 'react-native'
+import { View, Text, Image, TouchableWithoutFeedback } from 'react-native'
 import React from 'react'
 
-const Action = ({ title, color, imageSource}) => {
+import { icons } from '../constants'
+
+const Action = ({ title, color, icon, handlePress}) => {
   return (
-    <View className="border-2 rounded-2xl w-40 px-2 mx-4 h-40 justify-center" style={{backgroundColor: color}}>
+    <TouchableWithoutFeedback onPress={handlePress}>
+       <View className=" w-[45%] border-1 rounded-2xl m-1 mt-2 mx-2 px-2 h-40 justify-center" 
+    style={{backgroundColor: color}}
+    >
       <Image 
-      source={imageSource}/>
-      <Text className="text-lg font-psemibold">{title}</Text>
+      source={icon} resizeMode='contain' className="w-20 h-20"/>
+      <View className="flex-row justify-between">
+        <Text className="text-white font-psemibold">{title}</Text>
+        <Image source={icons.arrowRight} resizeMode='contain' className="w-7 h-7 "/>
+      </View>
+      
     </View>
+    </TouchableWithoutFeedback>
+   
   )
 }
 

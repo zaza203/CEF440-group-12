@@ -1,8 +1,16 @@
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, Image } from 'react-native'
-import { Tabs, Redirect } from 'expo-router'
+import { Tabs, Redirect, Stack } from 'expo-router'
 import React from 'react'
 
 import { icons } from "../../constants"
+
+import DashboardStack from '../../admin/stackScreens/DashboardStack';
+import CreateStack from '../../admin/stackScreens/CreateStack';
+import ReportStack from '../../admin/stackScreens/ReportStack';
+import SettingsStack from '../../admin/stackScreens/SettingsStack';
+
+const Tab = createBottomTabNavigator();
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
@@ -20,7 +28,7 @@ const TabIcon = ({ icon, color, name, focused }) => {
 const TabsLayout = () => {
   return (
     <>
-      <Tabs screenOptions={{
+      <Tab.Navigator screenOptions={{
         tabBarShowLabel: false,
         tabBarActiveTintColor: '#FFA001',
         tabBarInactiveTintColor: '#CDCDE0',
@@ -30,8 +38,9 @@ const TabsLayout = () => {
           height: 64
         }
       }}>
-        <Tabs.Screen 
-          name="dashboard"
+        <Tab.Screen 
+          name="dashboardStack"
+          component={DashboardStack}
           options={{
             title: "Home",
             headerShown: false,
@@ -44,8 +53,9 @@ const TabsLayout = () => {
               />
           }}
         />
-        <Tabs.Screen 
-          name="create"
+        <Tab.Screen 
+          name="createStack"
+          component={CreateStack}
           options={{
             title: "Create",
             headerShown: false,
@@ -58,8 +68,9 @@ const TabsLayout = () => {
               />
           }}
         />
-        <Tabs.Screen 
-          name="report"
+        <Tab.Screen 
+          name="reportStack"
+          component={ReportStack}
           options={{
             title: "Report",
             headerShown: false,
@@ -72,21 +83,22 @@ const TabsLayout = () => {
               />
           }}
         />
-        <Tabs.Screen 
-          name="profile"
+        <Tab.Screen 
+          name="settingsStack"
+          component={SettingsStack}
           options={{
-            title: "Profile",
+            title: "Settings",
             headerShown: false,
             tabBarIcon: ({ color, focused }) =>
               <TabIcon 
-                icon={icons.profile}
+                icon={icons.settings}
                 color={color}
-                name="Profile"
+                name="Settings"
                 focused={focused}
               />
           }}
         />
-      </Tabs>
+      </Tab.Navigator>
     </>
   )
 }
