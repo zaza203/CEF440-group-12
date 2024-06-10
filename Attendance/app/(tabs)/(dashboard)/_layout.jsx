@@ -2,16 +2,16 @@ import { View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react'
-import AddAdmin from '../AddAdmin';
-import AddLecturer from '../AddLecturer'
-import RegisterStudent from '../RegisterStudent'
-import AddSession from '../AddSession'
-import ViewAttendance from '../ViewAttendance'
-import ViewStudents from '../ViewStudents'
-import ViewLecturer from '../ViewLecture'
-import ViewAdmins from '../ViewAdmins'
-import ViewSession from '../ViewSession'
-import Dashboard from '../../app/(tabs)/Dashboard';
+import AddAdmin from '../../../admin/AddAdmin';
+import AddLecturer from '../../../admin/AddLecturer'
+import RegisterStudent from '../../../admin/RegisterStudent'
+import AddSession from '../../../admin/AddSession'
+import ViewAttendance from '../../../admin/ViewAttendance'
+import ViewStudents from '../../../admin/ViewStudents'
+import ViewLecturer from '../../../admin/ViewLecture'
+import ViewAdmins from '../../../admin/ViewAdmins'
+import ViewSession from '../../../admin/ViewSession'
+import Dashboard from './Dashboard';
 import { ScreenNavigationContainer } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
 

@@ -1,9 +1,9 @@
 import { View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
-import feedback from '../Feedback'
-import accountSettings from '../AccountSettings';
-import Settings from '../../app/(tabs)/Settings'
+import feedback from '../../../admin/Feedback'
+import accountSettings from '../../../admin/AccountSettings';
+import Settings from './Settings'
 
 const Stack = createNativeStackNavigator();
 

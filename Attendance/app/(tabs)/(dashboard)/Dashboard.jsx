@@ -1,12 +1,14 @@
 import { View, Text, ScrollView } from 'react-native'
-import Action from  '../../components/Action'
+import Action from  '../../../components/Action'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useNavigation } from 'expo-router'
 
-import { icons } from '../../constants'
+import { icons } from '../../../constants'
 import { router } from 'expo-router'
 
 const Dashboard = () => {
+  const navigation = useNavigation()
   return (
     <SafeAreaView>
       <ScrollView>
@@ -15,7 +17,7 @@ const Dashboard = () => {
           title="Add Admin"
           icon={icons.addAdmin}
           color="#c34a2c"
-          handlePress={()=>router.push('AddAdmin')}
+          handlePress={()=>navigation.navigate('addAdmin')}
         />
         <Action 
           title="Add Lecturer"

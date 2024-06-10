@@ -1,16 +1,19 @@
 import { Text, View } from 'react-native'
 import React from 'react'
-import {Stack} from 'expo-router'
+// import {Stack} from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
+import { createStackNavigator } from '@react-navigation/stack'
+import login from './login'
 
+const Stack = createStackNavigator();
 
 const AuthLayout = () => {
   return (
   <>
-  <Stack>
+  <Stack.Navigator options={{headerShown: false}} initialRouteName='login'>
     <Stack.Screen
     name='sign-up'
-    options={{headerShown: false}}
+    component={login}
     />
 
 <Stack.Screen
@@ -36,7 +39,7 @@ const AuthLayout = () => {
     options={{headerShown: false}}
     
     />
-  </Stack>
+  </Stack.Navigator>
  
   
   </>

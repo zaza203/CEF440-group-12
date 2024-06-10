@@ -5,10 +5,10 @@ import React from 'react'
 
 import { icons } from "../../constants"
 
-import DashboardStack from '../../admin/stackScreens/DashboardStack';
-import CreateStack from '../../admin/stackScreens/CreateStack';
-import ReportStack from '../../admin/stackScreens/ReportStack';
-import SettingsStack from '../../admin/stackScreens/SettingsStack';
+import DashboardStack from './(dashboard)/_layout';
+import CreateStack from './(create)/_layout';
+import ReportStack from './(report)/_layout';
+import SettingsStack from './(settings)/_layout';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,7 +39,7 @@ const TabsLayout = () => {
         }
       }}>
         <Tab.Screen 
-          name="dashboardStack"
+          name="(dashboard)"
           component={DashboardStack}
           options={{
             title: "Home",
@@ -54,7 +54,7 @@ const TabsLayout = () => {
           }}
         />
         <Tab.Screen 
-          name="createStack"
+          name="(create)"
           component={CreateStack}
           options={{
             title: "Create",
@@ -69,7 +69,7 @@ const TabsLayout = () => {
           }}
         />
         <Tab.Screen 
-          name="reportStack"
+          name="(report)"
           component={ReportStack}
           options={{
             title: "Report",
@@ -84,7 +84,7 @@ const TabsLayout = () => {
           }}
         />
         <Tab.Screen 
-          name="settingsStack"
+          name="(settings)"
           component={SettingsStack}
           options={{
             title: "Settings",

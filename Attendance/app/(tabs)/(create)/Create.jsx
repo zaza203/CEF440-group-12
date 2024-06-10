@@ -1,9 +1,9 @@
 import { View, Text, ScrollView } from 'react-native'
-import Action from  '../../components/Action'
+import Action from  '../../../components/Action'
 import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { icons } from '../../constants'
+import { icons } from '../../../constants'
 
 const Create = () => {
   return (

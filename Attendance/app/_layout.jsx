@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
-import { Stack, SplashScreen } from "expo-router";
+import { createStackNavigator } from '@react-navigation/stack';
+import { SplashScreen } from "expo-router";
 import { useFonts } from "expo-font";
+import { NavigationContainer } from '@react-navigation/native';
+
+import index from './index'
+import AuthStack from './(auth)/_layout'
+import TabStack from './(tabs)/_layout'
+
+const Stack = createStackNavigator();
 
 
 SplashScreen.preventAutoHideAsync();
@@ -36,16 +44,13 @@ const RootLayout = () => {
 
   return (
     
-
-    <Stack>
+      <Stack.Navigator options={{ headerShown: false }} initialRouteName="index">
+        <Stack.Screen name="index" component={index} options={{headerShown: false}}/>
+        <Stack.Screen name="(auth)" component={AuthStack} options={{headerShown: false}}/>
+        <Stack.Screen name="(tabs)" component={TabStack} options={{headerShown: false}}/>
+        <Stack.Screen name="(teacher)" component={TeacherLayout} options={{headerShown: false}} />
+      </Stack.Navigator>
     
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{headerShown: false}} />
-        <Stack.Screen name="(tabs)" options={{headerShown: false}} />
-        <Stack.Screen name="(teacher)" options={{headerShown: false}} />
-
-    
-    </Stack>
     
 
   );
