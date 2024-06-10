@@ -1,0 +1,106 @@
+npm install react-native-modal react-native-picker-select
+
+
+
+
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import Modal from 'react-native-modal';
+import RNPickerSelect from 'react-native-picker-select';
+
+const CustomDropdown = ({ options, onValueChange, placeholder, style }) => {
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+
+  const handleValueChange = (value) => {
+    setSelectedValue(value);
+    onValueChange(value);
+    toggleModal();
+  };
+
+  return (
+    <View style={style}>
+      <TouchableOpacity style={styles.dropdownButton} onPress={toggleModal}>
+        <Text style={styles.dropdownButtonText}>
+          {selectedValue ? selectedValue.label : placeholder}
+        </Text>
+      </TouchableOpacity>
+
+      <Modal isVisible={isModalVisible} onBackdropPress={toggleModal}>
+        <View style={styles.modalContent}>
+          <RNPickerSelect
+            onValueChange={handleValueChange}
+            items={options}
+            placeholder={{ label: placeholder, value: null }}
+          />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  dropdownButton: {
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  dropdownButtonText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    padding: 20,
+    borderRadius: 10,
+    justifyContent: 'center',
+  },
+});
+
+export default CustomDropdown;
+
+
+
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
+import CustomDropdown from './CustomDropdown';
+
+const App = () => {
+  const [selectedValue, setSelectedValue] = useState(null);
+
+  const options = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+
+  return (
+    <View style={styles.container}>
+      <CustomDropdown
+        options={options}
+        onValueChange={(value) => setSelectedValue(value)}
+        placeholder="Select an option"
+        style={styles.dropdown}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dropdown: {
+    width: '80%',
+  },
+});
+
+export default App;
