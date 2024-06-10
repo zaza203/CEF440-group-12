@@ -38,7 +38,11 @@ const AddAdmin = () => {
         otherStyles="mt-5"
       />
 
-      <CustomButton />
+      <CustomButton 
+        title="Create"
+        handlepress={() => {}}
+        containerStyles='mt-7 mx-3'
+      />
     </View>
       </ScrollView>
     </SafeAreaView>

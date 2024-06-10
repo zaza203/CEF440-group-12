@@ -11,7 +11,15 @@ const Stack = createNativeStackNavigator();
 
 const ReportStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='report'>
+    <Stack.Navigator screenOptions={{ 
+      headerShown: true, 
+      headerStyle: {
+        backgroundColor: '#1d4ed8',
+  },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+  }, }} initialRouteName='report'>
       <Stack.Screen name='report' component={Report}/>
       <Stack.Screen name = 'viewAttendance' component={viewAttendance}/>
       <Stack.Screen name='courseHistory' component={courseHistory}/>

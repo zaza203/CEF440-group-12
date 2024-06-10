@@ -9,7 +9,15 @@ const Stack = createNativeStackNavigator();
 
 const SettingsStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='settings'>
+    <Stack.Navigator screenOptions={{ 
+      headerShown: true, 
+      headerStyle: {
+        backgroundColor: '#1d4ed8',
+  },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+  }, }} initialRouteName='settings'>
       <Stack.Screen name='settings' component={Settings}/>
       <Stack.Screen name = 'accountSettings' component={accountSettings}/>
       <Stack.Screen name='feedback' component={feedback}/>

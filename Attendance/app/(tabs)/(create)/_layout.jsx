@@ -11,7 +11,15 @@ const Stack = createNativeStackNavigator();
 
 const CreateStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='create'>
+    <Stack.Navigator screenOptions={{ 
+      headerShown: true, 
+      headerStyle: {
+        backgroundColor: '#1d4ed8',
+  },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+  }, }} initialRouteName='create'>
       <Stack.Screen name='create' component={Create}/>
       <Stack.Screen name='addAdmin' component={AddAdmin}/>
       <Stack.Screen name='addLecturer' component={AddLecturer}/>

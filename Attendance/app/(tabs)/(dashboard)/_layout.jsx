@@ -14,12 +14,22 @@ import ViewSession from '../../../admin/ViewSession'
 import Dashboard from './Dashboard';
 import { ScreenNavigationContainer } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
+import FingerPrintRegister from '../../../admin/FingerPrintRegister';
+import ConfirmFingerPrint from '../../../admin/ConfirmFingerPrint';
 
 const Stack = createStackNavigator();
 
 const DashboardStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='dashboard'>
+    <Stack.Navigator screenOptions={{ 
+      headerShown: true, 
+      headerStyle: {
+        backgroundColor: '#1d4ed8',
+  },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+  }, }} initialRouteName='dashboard'>
         <Stack.Screen name='dashboard' component={Dashboard}/>
         <Stack.Screen name='addAdmin' component={AddAdmin}/>
         <Stack.Screen name='addLecturer' component={AddLecturer}/>
@@ -30,6 +40,8 @@ const DashboardStack = () => {
         <Stack.Screen name='viewLecturer' component={ViewLecturer}/>
         <Stack.Screen name='viewAdmins' component={ViewAdmins}/>
         <Stack.Screen name='viewSession' component={ViewSession}/>
+        <Stack.Screen name='fingerPrint' component={FingerPrintRegister}/>
+        <Stack.Screen name='Place FingerPrint' component={ConfirmFingerPrint}/>
     </Stack.Navigator>
     
   )

@@ -21,17 +21,20 @@ const Dashboard = () => {
         />
         <Action 
           title="Add Lecturer"
+          handlePress={()=>navigation.navigate('addLecturer')}
           icon={icons.addLecturer}
           color="#49413f"
         />
         <Action 
           title="Register Student"
           icon={icons.regStudent}
+          handlePress={()=>navigation.navigate('registerStudent')}
           color="#31906e"
         />
         <Action 
           title="Add Session"
           icon={icons.addSession}
+          handlePress={()=>navigation.navigate('addSession')}
           color="#2c3539"
         />
         <Action 

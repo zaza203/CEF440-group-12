@@ -6,7 +6,7 @@ import { useNavigation } from 'expo-router'
 import FormField from '../components/FormField'
 import CustomButton from '../components/CustomButton'
 
-const AddLecturer = () => {
+const FingerPrintRegister = () => {
   const navigation = useNavigation();
   const [form, setForm] = useState({
     username: '',
@@ -17,27 +17,19 @@ const AddLecturer = () => {
     <SafeAreaView>
       <ScrollView>
         <View>
-      <FormField
-        title="Matriculation"
-        placeholder=" Enter Matriculation"
-        value={form.username}
-        handleChangeText={(e) => setForm({ ...form, username: e})}
-        otherStyles="mt-8"
-      />
-      <FormField
-        title="Email"
-        placeholder="Enter Email"
-        value={form.email}
-        handleChangeText={(e) => setForm({ ...form, email: e})}
-        otherStyles="mt-5"
-        keyboardType="email-address"
+
+      <CustomButton 
+        title="FingerPrint 1"
+        handlepress={() => navigation.navigate('Place FingerPrint')}
+        containerStyles='mt-7 mx-3'
       />
 
       <CustomButton 
-        title="Next"
-        handlepress={() => navigation.navigate('fingerPrint')}
+        title="FingerPrint 2"
+        handlepress={() => navigation.navigate('Place FingerPrint')}
         containerStyles='mt-7 mx-3'
       />
+
     </View>
       </ScrollView>
     </SafeAreaView>
@@ -45,4 +37,4 @@ const AddLecturer = () => {
   )
 }
 
-export default AddLecturer
+export default FingerPrintRegister
