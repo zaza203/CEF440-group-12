@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const ViewSession = () => {
+const Settings = () => {
   return (
     <View>
-      <Text>ViewSession</Text>
+      <Text>profile</Text>
     </View>
   )
 }
 
-export default ViewSession
+export default Settings

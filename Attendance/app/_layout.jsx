@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import index from './index'
 import AuthStack from './(auth)/_layout'
 import TabStack from './(tabs)/_layout'
+import TeacherLayout from './(teacher)/_layout'
 
 const Stack = createStackNavigator();
 

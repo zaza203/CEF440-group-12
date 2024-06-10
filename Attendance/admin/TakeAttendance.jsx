@@ -8,7 +8,7 @@ import {
   } from "react-native";
   import React from "react";
   import { SafeAreaView } from "react-native-safe-area-context";
-  import { icons } from "../../constants";
+  import { icons } from "../constants";
   import { Link, router } from "expo-router";
   
   const TakeAttendance = () => {
