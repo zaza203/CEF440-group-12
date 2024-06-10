@@ -14,7 +14,7 @@ import { Link, router } from "expo-router";
 const forgotPassword = () => {
   return (
     <SafeAreaView className="h-full bg-primary">
-      <ScrollView contentContainerStyle={{ height: "100%" }}>
+      <ScrollView >
         <View className="h-full w-full bg-white items-center">
           <View className="flex flex-row gap-20 justify-center pt-5 mr-20 ">
           <Link href="/login"><Image source={icons.leftArrow} /></Link>
