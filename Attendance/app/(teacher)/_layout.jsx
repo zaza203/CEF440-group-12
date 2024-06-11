@@ -21,7 +21,7 @@ const TabIcon = ({ icon, color, name, focused }) => {
         tintColor={color}
         className="w-9 h-7"
       />
-      <Text className={`${focused ? 'font-psemibold' : 'font-pregular'} text-xs`}>{name}</Text>
+      <Text className={`${focused ? 'font-psemibold text-primary' : 'font-pregular'} text-xs`}>{name}</Text>
     </View>
   )
 }
@@ -30,7 +30,7 @@ const TeacherLayout = () => {
     <>
       <Tab.Navigator screenOptions={{
         tabBarShowLabel: false,
-        tabBarActiveTintColor: '#FFA001',
+        tabBarActiveTintColor: '#1d4ed8',
         tabBarInactiveTintColor: '#CDCDE0',
         tabBarStyle: {
           backgroundColor: '#FFF',

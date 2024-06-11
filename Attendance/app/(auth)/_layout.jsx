@@ -15,7 +15,8 @@ const AuthLayout = () => {
   <>
   <Stack.Navigator options={{headerShown: false}} initialRouteName='login'>
 <Stack.Screen
-    name='login'
+    name='sign-up'
+
     options={{headerShown: false}}
     component={login}
     
@@ -23,12 +24,14 @@ const AuthLayout = () => {
 
 <Stack.Screen
     name='forgot-password'
+
     options={{headerShown: false}}
     component={forgotPassword}
     />
 
 <Stack.Screen
     name='confirmCode'
+
     options={{headerShown: false}}
     component={confirmCode}
     
@@ -36,6 +39,7 @@ const AuthLayout = () => {
 
 <Stack.Screen
     name='newPassword'
+
     options={{headerShown: false}}
     component={newPassword}
     

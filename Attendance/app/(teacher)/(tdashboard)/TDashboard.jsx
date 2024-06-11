@@ -7,7 +7,7 @@ import { useNavigation } from 'expo-router'
 import { icons } from '../../../constants'
 import { router } from 'expo-router'
 
-const Dashboard = () => {
+const TDashboard = () => {
   const navigation = useNavigation()
   return (
     <SafeAreaView>
@@ -49,4 +49,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default TDashboard
