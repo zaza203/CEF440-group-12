@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { icons } from "../../constants";
 import { Link, router } from "expo-router";
 
-const forgotPassword = () => {
+const NewPassword = () => {
   return (
     <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -66,4 +66,4 @@ const forgotPassword = () => {
   );
 };
 
-export default forgotPassword;
+export default NewPassword;

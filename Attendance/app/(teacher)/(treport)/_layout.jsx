@@ -4,19 +4,25 @@ import React from 'react'
 import viewAttendance from '../../../admin/ViewAttendance'
 import studentHistory from '../../../admin/StudentHistory'
 import viewSession from '../../../admin/ViewSession';
-import courseHistory from '../../../admin/CourseHistory'
+import CourseHistory from '../../../admin/CourseHistory'
 import Report from './Report'
 
 const Stack = createNativeStackNavigator();
 
 const TReportStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='report'>
+    <Stack.Navigator screenOptions={{ headerShown: true ,   headerStyle: {
+      backgroundColor: '#1d4ed8',
+},
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+}, }} initialRouteName='report'>
       <Stack.Screen name='report' component={Report}/>
       <Stack.Screen name = 'viewAttendance' component={viewAttendance}/>
-      <Stack.Screen name='courseHistory' component={courseHistory}/>
+      <Stack.Screen name='courseHistory' component={CourseHistory}/>
       <Stack.Screen name='viewSession' component={viewSession}/>
-      <Stack.Screen name='StudentHistory' component={studentHistory}/>
+      <Stack.Screen name='studentHistory' component={studentHistory}/>
     </Stack.Navigator>
   )
 }

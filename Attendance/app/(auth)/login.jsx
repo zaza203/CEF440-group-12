@@ -4,7 +4,7 @@ import {Link,router} from 'expo-router'
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons } from "../../constants";
 
-const login = () => {
+const Login = () => {
   return (
     <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -31,12 +31,6 @@ const login = () => {
               placeholder="Enter your Password"
               placeholderTextColor="#7b7b8b"
             />
-
-            <TextInput
-              className=" bg-[#F6F5F5] font-pregular  p-2 pl-3 "
-              placeholder="Confirm password"
-              placeholderTextColor="#7b7b8b"
-            />
           </View>
           <View className="pl-[200px] mt-2">
           <Link href='/forgot-password'><Text className="ml-10 font-pregular underline">forgot password?</Text></Link>
@@ -44,25 +38,18 @@ const login = () => {
           <View className="items-center">
             <TouchableOpacity
               className="bg-primary mt-5   w-[160px] py-2 px-4   rounded-full "
-              onPress={() => router.push("/sign-up")}
+              onPress={() => router.push("/TDashboard")}
             >
               <Text className="font-pregular text-lg text-center">
                Login
               </Text>
             </TouchableOpacity>
           </View>
-          <View className=" flex-row justify-center items-center pt-5">
-            <Text className="font-psemibold text-lg ">
-              Don't have an account?{" "}
-            </Text>
-            <Link href="/sign-up">
-              <Text className="font-pregular text-primary">Sign Up</Text>
-            </Link>
-          </View>
+          
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default login;
+export default Login;

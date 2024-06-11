@@ -22,7 +22,7 @@ export default function App() {
           />
           <TouchableOpacity
           className="bg-primary mt-2 px-12 py-3 rounded-full "
-          onPress={()=>router.push('/Dashboard')}>
+          onPress={()=>router.push('/TDashboard')}>
           <Text className="font-pregular text-lg">Get Started</Text>
           </TouchableOpacity>
           <StatusBar style="auto" />

@@ -4,8 +4,10 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { icons } from '../../../constants'
+import useNavigation from "expo-router"
 
 const Report = () => {
+  const navigation = useNavigation()
   return (
     <SafeAreaView>
       <ScrollView>
@@ -14,6 +16,8 @@ const Report = () => {
           title="View Attendance"
           icon={icons.listView}
           color="#6495ed"
+          handlePress={()=>navigation.navigate('viewAttendance')}
+          
         />
         <Action 
           title="View Session"
