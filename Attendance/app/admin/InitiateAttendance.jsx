@@ -9,12 +9,12 @@ import {
 import { Alert } from "react-native";
 import {React, useState} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { icons } from "../constants";
+import { icons } from "../../constants";
 import { Link, router, useNavigation } from "expo-router";
-import CustomButton from "../components/CustomButton";
-import FormField from "../components/FormField";
-import SetTime from "../components/SetTime";
-import CustomDropdown from "../components/CustomDropDown";
+import CustomButton from "../../components/CustomButton";
+import FormField from "../../components/FormField";
+import SetTime from "../../components/SetTime";
+import CustomDropdown from "../../components/CustomDropDown";
 
 const InitiateAttendance = () => {
 
@@ -22,8 +22,7 @@ const InitiateAttendance = () => {
   const Courses = ['CEF440', 'CEF476', 'CEF444', 'CEF438', 'CEF450'];
   const [selectedItem, setSelectedItem] = useState('');
   return (
-    <SafeAreaView className="h-ful bg-primary">
-      <ScrollView  >
+    <SafeAreaView>
         <View>
         <CustomDropdown
         title="Enter Course"
@@ -41,7 +40,6 @@ const InitiateAttendance = () => {
             navigation.navigate("confirmFingerprint")
           }}/>
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 };

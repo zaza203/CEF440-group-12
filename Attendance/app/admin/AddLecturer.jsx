@@ -2,8 +2,8 @@ import { View, Text, ScrollView } from 'react-native'
 import React , {useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import FormField from '../components/FormField'
-import CustomButton from '../components/CustomButton'
+import FormField from '../../components/FormField'
+import CustomButton from '../../components/CustomButton'
 
 const AddLecturer = () => {
   const [form, setForm] = useState({

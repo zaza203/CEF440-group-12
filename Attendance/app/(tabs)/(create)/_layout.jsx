@@ -1,11 +1,11 @@
 import { View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
-import AddAdmin from '../../../admin/AddAdmin';
-import AddLecturer from '../../../admin/AddLecturer'
-import RegisterStudent from '../../../admin/RegisterStudent'
+import AddAdmin from '../../admin/AddAdmin';
+import AddLecturer from '../../admin/AddLecturer'
+import RegisterStudent from '../../admin/RegisterStudent'
 import Create from './Create'
-import AddSession from '../../../admin/AddSession'
+import AddSession from '../../admin/AddSession'
 
 const Stack = createNativeStackNavigator();
 

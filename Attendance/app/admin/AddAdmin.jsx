@@ -2,8 +2,8 @@ import { View, Text, ScrollView } from 'react-native'
 import React , {useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import FormField from '../components/FormField'
-import CustomButton from '../components/CustomButton'
+import FormField from '../../components/FormField'
+import CustomButton from '../../components/CustomButton'
 
 const AddAdmin = () => {
   const [form, setForm] = useState({
@@ -12,9 +12,11 @@ const AddAdmin = () => {
     password: ''
   })
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView className="mx-2">
         <View>
+          <View className="items-center">
+            <Text className="text-2xl font-psemibold">Admin Registration</Text>
+          </View>
       <FormField
         title="Username"
         placeholder=" Enter Username"
@@ -38,13 +40,15 @@ const AddAdmin = () => {
         otherStyles="mt-5"
       />
 
-      <CustomButton 
+      <View className="items-center">
+        <CustomButton 
         title="Create"
         handlepress={() => {}}
-        containerStyles='mt-7 mx-3'
+        containerStyles='mt-8 w-[250]'
       />
+      </View>
+      
     </View>
-      </ScrollView>
     </SafeAreaView>
     
   )

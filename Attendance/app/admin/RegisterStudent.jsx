@@ -3,8 +3,8 @@ import React , {useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from 'expo-router'
 
-import FormField from '../components/FormField'
-import CustomButton from '../components/CustomButton'
+import FormField from '../../components/FormField'
+import CustomButton from '../../components/CustomButton'
 
 const AddLecturer = () => {
   const navigation = useNavigation();

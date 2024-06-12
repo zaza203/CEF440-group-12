@@ -1,8 +1,8 @@
 import { View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
-import feedback from '../../../admin/Feedback'
-import AccountSettings from '../../../admin/AccountSettings';
+import feedback from '../../admin/Feedback'
+import AccountSettings from '../../admin/AccountSettings';
 import Settings from './Settings'
 
 const Stack = createNativeStackNavigator();

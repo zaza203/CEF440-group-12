@@ -2,20 +2,20 @@ import { View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react'
-import AddAdmin from '../../../admin/AddAdmin';
-import AddLecturer from '../../../admin/AddLecturer'
-import RegisterStudent from '../../../admin/RegisterStudent'
-import AddSession from '../../../admin/AddSession'
-import ViewAttendance from '../../../admin/ViewAttendance'
-import ViewStudents from '../../../admin/ViewStudents'
-import ViewLecturer from '../../../admin/ViewLecture'
-import ViewAdmins from '../../../admin/ViewAdmins'
-import ViewSession from '../../../admin/ViewSession'
+import AddAdmin from '../../admin/AddAdmin';
+import AddLecturer from '../../admin/AddLecturer'
+import RegisterStudent from '../../admin/RegisterStudent'
+import AddSession from '../../admin/AddSession'
+import ViewAttendance from '../../admin/ViewAttendance'
+import ViewStudents from '../../admin/ViewStudents'
+import ViewLecturer from '../../admin/ViewLecture'
+import ViewAdmins from '../../admin/ViewAdmins'
+import ViewSession from '../../admin/ViewSession'
 import Dashboard from './Dashboard';
 import { ScreenNavigationContainer } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
-import FingerPrintRegister from '../../../admin/FingerPrintRegister';
-import ConfirmFingerPrint from '../../../admin/ConfirmFingerPrint';
+import FingerPrintRegister from '../../admin/FingerPrintRegister';
+import ConfirmFingerPrint from '../../admin/ConfirmFingerPrint';
 
 const Stack = createStackNavigator();
 

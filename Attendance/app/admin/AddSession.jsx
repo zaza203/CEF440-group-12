@@ -2,9 +2,9 @@ import { View, Text, ScrollView, StyleSheet, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { router, useNavigation } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import CustomDropdown from '../components/CustomDropDown'
-import CustomButton from '../components/CustomButton'
-import SetTime from '../components/SetTime'
+import CustomDropdown from '../../components/CustomDropDown'
+import CustomButton from '../../components/CustomButton'
+import SetTime from '../../components/SetTime'
 
 const AddSession = () => {
   const navigation = useNavigation();

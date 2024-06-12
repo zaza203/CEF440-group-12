@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
-import SessionRecord from '../components/SessionRecord';
+import SessionRecord from '../../components/SessionRecord';
 
 const sessionData = [
   { id: '1', sessionId: 'CS101', status: 'Ended' },

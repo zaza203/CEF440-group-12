@@ -10,12 +10,12 @@ import {
 import {React,useState}from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList } from "react-native";
-import { icons } from "../constants";
+import { icons } from "../../constants";
 import { Link, router,useNavigation } from "expo-router";
-import SetDate from "../components/SetDate";
-import CustomDropdown from "../components/CustomDropDown";
-import CustomButton from "../components/CustomButton";
-import StudentRecord from "../components/StudentRecord";
+import SetDate from "../../components/SetDate";
+import CustomDropdown from "../../components/CustomDropDown";
+import CustomButton from "../../components/CustomButton";
+import StudentRecord from "../../components/StudentRecord";
 
 const ViewAttendance = () => {
 
