@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
+import { StatusBar } from 'expo-status-bar'
 
 const AddAdmin = () => {
   const [form, setForm] = useState({
@@ -12,8 +13,8 @@ const AddAdmin = () => {
     password: ''
   })
   return (
-    <SafeAreaView className="mx-2">
-        <View>
+    <SafeAreaView className="bg-white h-full">
+        <View className="mx-2">
           <View className="items-center">
             <Text className="text-2xl font-psemibold">Admin Registration</Text>
           </View>
@@ -49,6 +50,7 @@ const AddAdmin = () => {
       </View>
       
     </View>
+    <StatusBar style='light'/>
     </SafeAreaView>
     
   )

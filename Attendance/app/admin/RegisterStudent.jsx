@@ -14,32 +14,33 @@ const AddLecturer = () => {
     password: ''
   })
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View>
-      <FormField
-        title="Matriculation"
-        placeholder=" Enter Matriculation"
-        value={form.username}
-        handleChangeText={(e) => setForm({ ...form, username: e})}
-        otherStyles="mt-8"
-      />
-      <FormField
-        title="Email"
-        placeholder="Enter Email"
-        value={form.email}
-        handleChangeText={(e) => setForm({ ...form, email: e})}
-        otherStyles="mt-5"
-        keyboardType="email-address"
-      />
+    <SafeAreaView className="bg-white h-full">
+      <View className="mx-2">
+      <View className="items-center">
+            <Text className="text-2xl font-psemibold">Student Registration</Text>
+          </View>
+        <FormField
+          title="Matriculation"
+          placeholder=" Enter Matriculation"
+          value={form.username}
+          handleChangeText={(e) => setForm({ ...form, username: e})}
+          otherStyles="mt-8"
+        />
+        <FormField
+          title="Email"
+          placeholder="Enter Email"
+          value={form.email}
+          handleChangeText={(e) => setForm({ ...form, email: e})}
+          otherStyles="mt-5"
+          keyboardType="email-address"
+        />
 
-      <CustomButton 
-        title="Next"
-        handlepress={() => navigation.navigate('fingerPrint')}
-        containerStyles='mt-7 mx-3'
-      />
-    </View>
-      </ScrollView>
+        <CustomButton 
+          title="Next"
+          handlepress={() => navigation.navigate('fingerPrint')}
+          containerStyles='mt-7 mx-3'
+        />
+      </View>
     </SafeAreaView>
     
   )

@@ -7,7 +7,7 @@ import header from "../assets/images/header.png"
 
 export default function App() {
   return (
-    <SafeAreaView className="h-full bg-primary">
+    <SafeAreaView className="h-full bg-white">
       <ScrollView contentContainerStyle={{height: "100%"}}>
         <View className="flex-1 items-center justify-center bg-white  w-full h-full">
             <Image
@@ -23,9 +23,9 @@ export default function App() {
           <TouchableOpacity
           className="bg-primary mt-2 px-12 py-3 rounded-full "
           onPress={()=>router.push('/Login')}>
-          <Text className="font-pregular text-lg">Get Started</Text>
+          <Text className="font-pregular text-lg text-white">Get Started</Text>
           </TouchableOpacity>
-          <StatusBar style="auto" />
+          <StatusBar style="light" />
         </View>
       </ScrollView>
     </SafeAreaView>

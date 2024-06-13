@@ -13,8 +13,8 @@ const AddSession = () => {
   const Courses = ['CEF440', 'CEF476', 'CEF444', 'CEF438', 'CEF450'];
 
   return (
-    <SafeAreaView className="">
-      <View>
+    <SafeAreaView className="bg-white h-full">
+      <View className="mx-2">
         <CustomDropdown
           data={Courses}
           placeholder="Course"

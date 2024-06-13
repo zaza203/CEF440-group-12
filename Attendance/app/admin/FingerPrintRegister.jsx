@@ -14,8 +14,7 @@ const FingerPrintRegister = () => {
     password: ''
   })
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView className="bg-white h-full">
         <View>
 
       <CustomButton 
@@ -31,7 +30,6 @@ const FingerPrintRegister = () => {
       />
 
     </View>
-      </ScrollView>
     </SafeAreaView>
     
   )

@@ -7,8 +7,8 @@ import { icons } from '../../../constants'
 
 const Create = () => {
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView  className="bg-white h-[100vh] mt-[-29]">
+      <ScrollView className="py-1">
       <View className="flex flex-row flex-wrap">
         <Action 
           title="Add Admin"

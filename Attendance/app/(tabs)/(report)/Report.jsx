@@ -4,13 +4,15 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { icons } from '../../../constants'
-import {router ,useNavigation} from "expo-router"
+import {useNavigation} from "expo-router"
+import { StatusBar } from 'expo-status-bar'
 
 const Report = () => {
   const navigation = useNavigation()
+  
   return (
-    <SafeAreaView>
-      <ScrollView>
+    <SafeAreaView  className="bg-white h-[100vh] mt-[-29]">
+      <ScrollView className="py-1">
       <View className="flex flex-row flex-wrap">
       <Action 
           title="View Attendance"
@@ -44,6 +46,7 @@ const Report = () => {
         />
         </View>
       </ScrollView>
+      <StatusBar style='light'/>
     </SafeAreaView>
   )
 }
