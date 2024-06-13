@@ -38,29 +38,34 @@ const Dashboard = () => {
           color="#2c3539"
         />
         <Action 
-          title="View Admin"
+          title="View Admins"
           icon={icons.view}
           color="#550a35"
+          handlePress={()=>navigation.navigate('viewAdmins')}
         />
         <Action 
           title="View Students"
           icon={icons.listView}
           color="#040720"
+          handlePress={()=>navigation.navigate('viewStudents')}
         />
         <Action 
           title="View Lecturer"
           icon={icons.view}
           color="#da70d6"
+          handlePress={()=>navigation.navigate('viewLecturer')}
         />
         <Action 
           title="View Attendance"
           icon={icons.listView}
           color="#6495ed"
+          handlePress={()=>navigation.navigate('viewAttendance')}
         />
         <Action 
           title="View Session"
           icon={icons.listView}
           color="#2c3539"
+          handlePress={()=>navigation.navigate('viewSession')}
         />
         </View>
       </ScrollView>

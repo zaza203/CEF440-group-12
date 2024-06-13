@@ -21,7 +21,7 @@ const TDashboard = () => {
         />
         <Action 
           title="MarkAttendance"
-          icon={icons.regStudent}
+          icon={icons.mark}
           color="#31906e"
           handlePress={()=>navigation.navigate('markAttendance')}
         />

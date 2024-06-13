@@ -46,9 +46,9 @@ const ViewAttendance = () => {
   const navigation = useNavigation()
 
   return (
-    <SafeAreaView className="h-ful bg-primary">
+    <SafeAreaView className="">
       <ScrollView  >
-        <View className="h-full w-full bg-white items-center">
+        <View className="h-full w-full ">
 
           <Text>Enter course Title</Text>
 
@@ -97,11 +97,6 @@ const ViewAttendance = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
   }})
 
 export default ViewAttendance;

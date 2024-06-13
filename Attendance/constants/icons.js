@@ -27,6 +27,8 @@ import generate from "../assets/icons/generatereport.png"
 import markattendance from "../assets/icons/markattendance.png"
 import initiateattendance from "../assets/icons/initiateattendance.png"
 import fingerprint from "../assets/icons/fingerprint.png"
+import mark from "../assets/icons/mark.png"
+import logout from "../assets/icons/logout.png"
 export default {
   leftArrow,
   rightArrow,
@@ -56,5 +58,7 @@ export default {
   generate,
   markattendance,
   initiateattendance,
-  fingerprint
+  fingerprint,
+  mark,
+  logout
 };

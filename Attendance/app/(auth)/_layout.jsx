@@ -1,39 +1,36 @@
-import { Text, View } from 'react-native'
 import React from 'react'
-// import {Stack} from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
 import { createStackNavigator } from '@react-navigation/stack'
-import login from './Login'
-import  forgotPassword from './ForgotPassword'
-import confirmCode from './ConfirmCode'
-import newPassword from './NewPassword'
+import Login from './Login'
+import  ForgotPassword from './ForgotPassword'
+import ConfirmCode from './ConfirmCode'
+import NewPassword from './NewPassword'
 
 const Stack = createStackNavigator();
 
 const AuthLayout = () => {
   return (
   <>
-  <Stack.Navigator options={{headerShown: false}} initialRouteName='login'>
+  <Stack.Navigator options={{headerShow: true}} initialRouteName='login'>
 <Stack.Screen
-    name='sign-up'
+    name='login'
 
     options={{headerShown: false}}
-    component={login}
+    component={Login}
     
     />
 
 <Stack.Screen
-    name='forgot-password'
+    name='forgotPassword'
 
     options={{headerShown: false}}
-    component={forgotPassword}
+    component={ForgotPassword}
     />
 
 <Stack.Screen
     name='confirmCode'
 
     options={{headerShown: false}}
-    component={confirmCode}
+    component={ConfirmCode}
     
     />
 
@@ -41,7 +38,7 @@ const AuthLayout = () => {
     name='newPassword'
 
     options={{headerShown: false}}
-    component={newPassword}
+    component={NewPassword}
     
     />
   </Stack.Navigator>

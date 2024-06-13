@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react'
-import viewAttendance from '../../admin/ViewAttendance'
-import studentHistory from '../../admin/StudentHistory'
-import viewSession from '../../admin/ViewSession';
-import courseHistory from '../../admin/CourseHistory'
+import ViewAttendance from '../../admin/ViewAttendance'
+import StudentHistory from '../../admin/StudentHistory'
+import ViewSession from '../../admin/ViewSession';
+import CourseHistory from '../../admin/CourseHistory'
 import Report from './Report'
 
 const Stack = createNativeStackNavigator();
@@ -21,10 +21,10 @@ const ReportStack = () => {
         fontWeight: 'bold',
   }, }} initialRouteName='report'>
       <Stack.Screen name='report' component={Report}/>
-      <Stack.Screen name = 'viewAttendance' component={viewAttendance}/>
-      <Stack.Screen name='courseHistory' component={courseHistory}/>
-      <Stack.Screen name='viewSession' component={viewSession}/>
-      <Stack.Screen name='StudentHistory' component={studentHistory}/>
+      <Stack.Screen name = 'viewAttendance' component={ViewAttendance}/>
+      <Stack.Screen name='courseHistory' component={CourseHistory}/>
+      <Stack.Screen name='viewSession' component={ViewSession}/>
+      <Stack.Screen name='studentHistory' component={StudentHistory}/>
     </Stack.Navigator>
   )
 }

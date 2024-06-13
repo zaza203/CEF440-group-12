@@ -4,7 +4,7 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { icons } from '../../../constants'
-import useNavigation from "expo-router"
+import {router ,useNavigation} from "expo-router"
 
 const Report = () => {
   const navigation = useNavigation()
@@ -23,11 +23,13 @@ const Report = () => {
           title="View Session"
           icon={icons.listView}
           color="#2c3539"
+          handlePress={()=>navigation.navigate('viewSession')}
         />
         <Action 
           title="Student History"
           icon={icons.history}
           color="#31906e"
+          handlePress={()=>navigation.navigate('studentHistory')}
         />
         {/* <Action 
           title="Class History"
@@ -38,6 +40,7 @@ const Report = () => {
           title="Course History"
           icon={icons.historyManage}
           color="#550a35"
+          handlePress={()=>navigation.navigate('courseHistory')}
         />
         </View>
       </ScrollView>

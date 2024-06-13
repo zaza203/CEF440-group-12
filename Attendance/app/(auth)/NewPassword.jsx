@@ -9,9 +9,10 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons } from "../../constants";
-import { Link, router } from "expo-router";
+import { Link, router,useNavigation } from "expo-router";
 
 const NewPassword = () => {
+  const navigation= useNavigation();
   return (
     <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -53,9 +54,9 @@ const NewPassword = () => {
           <View className="items-center">
             <TouchableOpacity
               className="bg-primary mt-5   w-[200px] py-2 px-4   rounded-full "
-              onPress={() => router.push("/login")}
+              onPress={() => navigation.navigate("login")}
             >
-              <Text className="font-pregular text-lg text-center">
+              <Text className="font-pregular text-white text-lg text-center">
                 Create Password
               </Text>
             </TouchableOpacity>
