@@ -21,10 +21,10 @@ const SetDate = ({ date, setDate, title }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} className="">
       <Text style={styles.title}>{title}</Text>
-      <TouchableOpacity onPress={showDatePicker} style={styles.dateButton}>
-        <Text style={styles.dateText}>
+      <TouchableOpacity onPress={showDatePicker}  className="bg-gray-200 p-3 mx-3 rounded-md items-center font-pregular">
+        <Text className="font-pmedium  " >
           {date ? date.toDateString() : 'Select Date'}
         </Text>
       </TouchableOpacity>
@@ -49,14 +49,11 @@ const styles = StyleSheet.create({
   },
   dateButton: {
     padding: 10,
-    backgroundColor: '#3AF0F0',
+    backgroundColor: 'blue',
     borderRadius: 5,
     alignItems: 'center',
   },
-  dateText: {
-    color: '#ffffff',
-    fontSize: 16,
-  },
+ 
 });
 
 export default SetDate;
