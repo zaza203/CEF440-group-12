@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from users.models import Student
-from sessions.models import Session
+from user.models import Student
+from session.models import Session
 from .models import Attendance
 
 class StudentSerializer(serializers.ModelSerializer):

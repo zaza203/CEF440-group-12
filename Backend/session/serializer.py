@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Session
-from users.models import Lecturer
+from user.models import Lecturer
 
 class LecturerSerializer(serializers.ModelSerializer):
     class Meta:

@@ -1,7 +1,7 @@
 from django.db import models
 
 from django.db import models
-from users.models import Lecturer
+from user.models import Lecturer
 
 class Session(models.Model):
     lecturer = models.ForeignKey(Lecturer, on_delete=models.CASCADE)

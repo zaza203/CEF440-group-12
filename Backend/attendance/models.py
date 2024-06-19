@@ -1,6 +1,6 @@
 from django.db import models
-from users.models import Student
-from sessions.models import Session
+from user.models import Student
+from session.models import Session
 
 class Attendance(models.Model):
     session = models.ForeignKey(Session, on_delete=models.CASCADE)
