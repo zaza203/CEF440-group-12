@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { SplashScreen } from "expo-router";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from '@react-navigation/native';
+import { AuthProvider } from "../context/AuthContext";
 
 import index from './index'
 import AuthStack from './(auth)/_layout'
@@ -44,7 +45,7 @@ const RootLayout = () => {
   }
 
   return (
-    
+    <AuthProvider>
       <Stack.Navigator options={{ headerShown: false }} initialRouteName="index">
         <Stack.Screen name="index" component={index} options={{headerShown: false}}/>
         <Stack.Screen name="(auth)" component={AuthStack} options={{headerShown: false}}/>
@@ -52,7 +53,7 @@ const RootLayout = () => {
         <Stack.Screen name="(teacher)" component={TeacherLayout} options={{headerShown: false}} />
       </Stack.Navigator>
     
-    
+      </AuthProvider>
 
   );
 };

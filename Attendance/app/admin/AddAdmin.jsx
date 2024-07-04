@@ -1,59 +1,83 @@
-import { View, Text, ScrollView } from 'react-native'
-import React , {useState} from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-
-import FormField from '../../components/FormField'
-import CustomButton from '../../components/CustomButton'
-import { StatusBar } from 'expo-status-bar'
+import { View, Text } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
+import FormField from '../../components/FormField';
+import CustomButton from '../../components/CustomButton';
+import { AuthContext } from '../../context/AuthContext';
+import { getAuth, createUserWithEmailAndPassword } from '@firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddAdmin = () => {
+  const { dispatch, addUserToCollection } = useContext(AuthContext); // Access dispatch and addUserToCollection from AuthContext
+  const auth = getAuth();
+  
   const [form, setForm] = useState({
-    username: '',
     email: '',
-    password: ''
-  })
+    password: '',
+  });
+
+  const submit = async () => {
+    try {
+      if (!form.email || !form.password) {
+        alert('Please fill in all fields');
+        return;
+      }
+      
+      const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
+      const user = userCredential.user;
+
+      // Add user to 'administrators' collection
+      await addUserToCollection(user, 'administrators');
+
+      // Optionally, set the role to 'admin' in local storage
+      const role = 'admin';
+      await AsyncStorage.setItem('role', role);
+
+      dispatch({ type: 'LOGIN', payload: { user, role } });
+
+      alert('Admin registered successfully');
+
+      // Clear form fields
+      setForm({ email: '', password: '' });
+    } catch (error) {
+      console.error('Error registering admin:', error.message);
+      alert('Failed to register admin. Please try again.');
+    }
+  };
+
   return (
     <SafeAreaView className="bg-white h-full">
-        <View className="mx-2">
-          <View className="items-center">
-            <Text className="text-2xl font-psemibold">Admin Registration</Text>
-          </View>
-      <FormField
-        title="Username"
-        placeholder=" Enter Username"
-        value={form.username}
-        handleChangeText={(e) => setForm({ ...form, username: e})}
-        otherStyles="mt-8"
-      />
-      <FormField
-        title="Email"
-        placeholder="Enter Email"
-        value={form.email}
-        handleChangeText={(e) => setForm({ ...form, email: e})}
-        otherStyles="mt-5"
-        keyboardType="email-address"
-      />
-      <FormField
-        title="Password"
-        placeholder="Enter Password"
-        value={form.password}
-        handleChangeText={(e) => setForm({ ...form, password: e})}
-        otherStyles="mt-5"
-      />
-
-      <View className="items-center">
-        <CustomButton 
-        title="Create"
-        handlepress={() => {}}
-        containerStyles='mt-8 w-[250]'
-      />
+      <View className="mx-2">
+        <View className="items-center">
+          <Text className="text-2xl font-semibold">Admin Registration</Text>
+        </View>
+        <FormField
+          title="Email"
+          placeholder="Enter Email"
+          value={form.email}
+          handleChangeText={(e) => setForm({ ...form, email: e })}
+          otherStyles="mt-5"
+          keyboardType="email-address"
+        />
+        <FormField
+          title="Password"
+          placeholder="Enter Password"
+          value={form.password}
+          handleChangeText={(e) => setForm({ ...form, password: e })}
+          otherStyles="mt-5"
+        />
+        <View className="items-center">
+          <CustomButton
+            title="Create"
+            handlepress={submit}
+            containerStyles="mt-8 w-[250]"
+          />
+        </View>
       </View>
-      
-    </View>
-    <StatusBar style='light'/>
+      <StatusBar style="light" />
     </SafeAreaView>
-    
-  )
-}
+  );
+};
 
-export default AddAdmin
+export default AddAdmin;
