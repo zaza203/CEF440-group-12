@@ -6,13 +6,30 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import {useContext,React} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons } from "../../constants";
 import { Link, router,useNavigation } from "expo-router";
+import {AuthContext, fetchAllUsers} from "../../context/AuthContext";
 
 const ConfirmCode = () => {
   const navigation= useNavigation();
+  const {fetchAllUsers}= useContext(AuthContext)
+
+
+  // test the fetchUsers function
+  const someFunction = async () => {
+    try {
+      const { administrators, lecturers, students } = await fetchAllUsers();
+      console.log('Administrators:', administrators);
+      console.log('Lecturers:', lecturers);
+      console.log('Students:', students);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   return (
     <SafeAreaView className="h-full bg-primary">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -57,7 +74,9 @@ const ConfirmCode = () => {
           <View className="items-center">
             <TouchableOpacity
               className="bg-primary mt-5   w-[160px] py-2 px-4   rounded-full "
-              onPress={() => navigation.navigate("newPassword")}
+              onPress={ 
+                someFunction 
+                }
             >
               <Text className="font-pregular text-lg text-white text-center">confirm</Text>
             </TouchableOpacity>
