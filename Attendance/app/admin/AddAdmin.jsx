@@ -25,17 +25,17 @@ const AddAdmin = () => {
       }
       
       const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
-      const user = userCredential.user;
+      const newUser = userCredential.user;
 
       // Add user to 'administrators' collection
       let createdBy = state.user.uid
-      await addUserToCollection(user, 'administrators',createdBy);
+      await addUserToCollection(newUser, 'administrators',createdBy);
 
       // Optionally, set the role to 'admin' in local storage
-      const role = 'admin';
-      await AsyncStorage.setItem('role', role);
+      // const role = 'admin';
+      // await AsyncStorage.setItem('role', role);
 
-      dispatch({ type: 'LOGIN', payload: { user, role } });
+      // dispatch({ type: 'LOGIN', payload: { user, role } });
 
       alert('Admin registered successfully');
 

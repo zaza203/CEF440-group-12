@@ -6,7 +6,7 @@ import RegisterStudent from '../../admin/RegisterStudent'
 import AddSession from '../../admin/AddSession'
 import ViewAttendance from '../../admin/ViewAttendance'
 import ViewStudents from '../../admin/ViewStudents'
-import ViewLecturer from '../../admin/ViewLecture'
+import ViewLecturers from '../../admin/ViewLecturers';
 import ViewAdmins from '../../admin/ViewAdmins'
 import ViewSession from '../../admin/ViewSession'
 import Dashboard from './Dashboard';
@@ -33,7 +33,7 @@ const DashboardStack = () => {
         <Stack.Screen name='addSession' component={AddSession}/>
         <Stack.Screen name = 'viewAttendance' component={ViewAttendance}/>
         <Stack.Screen name='viewStudents' component={ViewStudents}/>
-        <Stack.Screen name='viewLecturer' component={ViewLecturer}/>
+        <Stack.Screen name='viewLecturer' component={ViewLecturers}/>
         <Stack.Screen name='viewAdmins' component={ViewAdmins}/>
         <Stack.Screen name='viewSession' component={ViewSession}/>
         <Stack.Screen name='fingerPrint' component={FingerPrintRegister}/>

@@ -26,17 +26,17 @@ const AddLecturer = () => {
       }
       
       const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
-      const user = userCredential.user;
+      const newUser = userCredential.user;
 
       // Add user to 'lecturers' collection
       let createdBy= state.user.uid
-      await addUserToCollection(user, 'lecturers', createdBy);
+      await addUserToCollection(newUser, 'lecturers', createdBy);
 
       // Optionally, set the role to 'lecturer' in local storage
-      const role = 'lecturer';
-      await AsyncStorage.setItem('role', role);
+      // const role = 'lecturer';
+      // await AsyncStorage.setItem('role', role);
 
-      dispatch({ type: 'LOGIN', payload: { user, role } });
+      // dispatch({ type: 'LOGIN', payload: { user, role } });
 
       alert('Lecturer registered successfully');
 
