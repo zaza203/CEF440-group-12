@@ -73,6 +73,12 @@ const Dashboard = () => {
             color="#040720"
             handlePress={() =>navigation.navigate('addCourse')}
           />
+          <Action 
+            title="View Course"
+            icon={icons.listView}
+            color="#040720"
+            handlePress={() =>navigation.navigate('viewCourse')}
+          />
           </View>
       </ScrollView>
     </SafeAreaView>

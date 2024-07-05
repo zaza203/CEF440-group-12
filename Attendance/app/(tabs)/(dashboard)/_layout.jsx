@@ -13,6 +13,9 @@ import Dashboard from './Dashboard';
 import FingerPrintRegister from '../../admin/FingerPrintRegister';
 import ConfirmFingerPrint from '../../admin/ConfirmFingerPrint';
 import AddCourse from '../../admin/AddCourse';
+import ViewCourse from '../../admin/ViewCourse';
+import EditCourse from '../../admin/EditCourse';
+
 
 
 const Stack = createStackNavigator();
@@ -41,6 +44,8 @@ const DashboardStack = () => {
         <Stack.Screen name='fingerPrint' component={FingerPrintRegister}/>
         <Stack.Screen name='Place FingerPrint' component={ConfirmFingerPrint}/>
         <Stack.Screen name='addCourse' component={AddCourse}/>
+        <Stack.Screen name='viewCourse' component={ViewCourse}/>
+        <Stack.Screen name='editCourse' component={EditCourse}/>
     </Stack.Navigator>
     
   )
