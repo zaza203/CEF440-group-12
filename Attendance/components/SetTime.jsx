@@ -73,7 +73,7 @@
 
 
 import React, { useState } from 'react';
-import { View, Platform, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 const SetTime = ({ title, onTimeChange }) => {
@@ -84,9 +84,8 @@ const SetTime = ({ title, onTimeChange }) => {
     const currentTime = selectedTime || time;
     setShow(Platform.OS === 'ios');
     setTime(currentTime);
-    if (selectedTime) {
-      onTimeChange(currentTime);
-    }
+    const formattedTime = currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+    onTimeChange(formattedTime);
   };
 
   const showTimepicker = () => {
@@ -98,7 +97,7 @@ const SetTime = ({ title, onTimeChange }) => {
       <Text>{title}</Text>
       <View style={styles.timePickerContainer}>
         <TouchableOpacity onPress={showTimepicker} style={styles.item}>
-          <Text>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</Text>
+          <Text>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })}</Text>
         </TouchableOpacity>
       </View>
       {show && (
@@ -129,7 +128,6 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     height: 30,
     width: '100%',
-    maxHeight: 200,
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,

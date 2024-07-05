@@ -48,7 +48,7 @@ public class Attendance {
 
     @Override
     public String toString() {
-        return "Attrndance{" +
+        return "Attendance{" +
                 "id=" + id +
                 ", session='" + session + '\'' +
                 ", students='" + students + '\'' +

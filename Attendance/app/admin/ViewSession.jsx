@@ -1,25 +1,55 @@
-// screens/ViewSession.js
-
-import React from 'react';
-import { View, FlatList, StyleSheet, Text } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, FlatList, StyleSheet, Text, ActivityIndicator } from 'react-native';
 import SessionRecord from '../../components/SessionRecord';
-
-const sessionData = [
-  { id: '1', sessionId: 'CS101', status: 'Ended' },
-  { id: '2', sessionId: 'CS102', status: 'Ongoing' },
-  { id: '3', sessionId: 'CS103', status: 'Ended' },
-  { id: '4', sessionId: 'CS104', status: 'Ended' },
-  { id: '5', sessionId: 'CS105', status: 'Ended' },
-  { id: '6', sessionId: 'CS106', status: 'Ended' },
-  { id: '7', sessionId: 'CS107', status: 'Ended' },
-  { id: '8', sessionId: 'CS108', status: 'Ended' },
-  { id: '9', sessionId: 'CS109', status: 'Ended' },
-  { id: '10', sessionId: 'CS110', status: 'Ended' },
-];
+import { getAllSessions } from '../../context/api';
 
 const ViewSession = () => {
-  const ongoingSession = sessionData.find(session => session.status === 'Ongoing');
-  const pastSessions = sessionData.filter(session => session.status === 'Ended');
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSessions = async () => {
+      try {
+        const response = await getAllSessions();
+        const sessionsWithStatus = response.data.map((session) => {
+          const { date, startTime, endTime } = session;
+          const sessionDate = new Date(date);
+          const sessionStartTime = new Date(`${date}T${startTime}`);
+          const sessionEndTime = new Date(`${date}T${endTime}`);
+          const currentDateTime = new Date();
+
+          let status = 'Upcoming';
+          if (currentDateTime > sessionEndTime) {
+            status = 'Ended';
+          } else if (currentDateTime >= sessionStartTime && currentDateTime <= sessionEndTime) {
+            status = 'Ongoing';
+          }
+
+          return { ...session, status };
+        });
+
+        setSessions(sessionsWithStatus);
+      } catch (error) {
+        console.error('Error fetching sessions:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSessions();
+  }, []);
+
+  const ongoingSession = sessions.find(session => session.status === 'Ongoing');
+  const pastSessions = sessions.filter(session => session.status === 'Ended');
+  const upcomingSessions = sessions.filter(session => session.status === 'Upcoming');
+
+  if (loading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -30,10 +60,21 @@ const ViewSession = () => {
           <SessionRecord sessionId={ongoingSession.sessionId} status={ongoingSession.status} />
         </>
       )}
+      <Text style={styles.sectionTitle}>Upcoming Sessions</Text>
+      <FlatList
+        data={upcomingSessions}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <SessionRecord
+            sessionId={item.sessionId}
+            status={item.status}
+          />
+        )}
+      />
       <Text style={styles.sectionTitle}>Past Sessions</Text>
       <FlatList
         data={pastSessions}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <SessionRecord
             sessionId={item.sessionId}
@@ -60,6 +101,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginVertical: 10,
     fontWeight: 'bold',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
