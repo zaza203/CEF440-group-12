@@ -17,7 +17,7 @@ export default function App() {
           <Text className="mt-5 mx-5 text-lg ">Easy to use,convenient and guaranteed to increase student punctuality</Text>
           <Image
           source={image}
-          className="rounded-md mt-5 mr-3 w-[200px] "
+          className="rounded-md mt-5 mr-3 w-[200px]"
           resizeMode="contain"
           />
           <TouchableOpacity

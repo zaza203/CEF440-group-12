@@ -9,7 +9,7 @@ import { getAuth, createUserWithEmailAndPassword } from '@firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddAdmin = () => {
-  const { dispatch, addUserToCollection } = useContext(AuthContext); // Access dispatch and addUserToCollection from AuthContext
+  const { state,dispatch, addUserToCollection } = useContext(AuthContext); // Access dispatch and addUserToCollection from AuthContext
   const auth = getAuth();
   
   const [form, setForm] = useState({
@@ -28,7 +28,8 @@ const AddAdmin = () => {
       const user = userCredential.user;
 
       // Add user to 'administrators' collection
-      await addUserToCollection(user, 'administrators');
+      let createdBy = state.user.uid
+      await addUserToCollection(user, 'administrators',createdBy);
 
       // Optionally, set the role to 'admin' in local storage
       const role = 'admin';

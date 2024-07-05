@@ -1,3 +1,4 @@
+
 import React, { createContext, useReducer, useEffect } from 'react';
 import { initializeApp } from '@firebase/app';
 import { getAuth, onAuthStateChanged } from '@firebase/auth';
@@ -56,7 +57,7 @@ const AuthProvider = ({ children }) => {
             dispatch({ type: 'LOGIN', payload: { user, role } });
             AsyncStorage.setItem('user', JSON.stringify(user));
             AsyncStorage.setItem('role', role);
-          } else {
+          } else { 
             dispatch({ type: 'LOGOUT' });
             AsyncStorage.removeItem('user');
             AsyncStorage.removeItem('role');
@@ -69,13 +70,14 @@ const AuthProvider = ({ children }) => {
     checkUser();
   }, []);
 
-  const addUserToCollection = async (user, role) => {
+  const addUserToCollection = async (user, role, createdBy) => {
     try {
       const userRef = doc(db, role, user.uid); // e.g., "administrators/{uid}", "lecturers/{uid}", "students/{uid}"
       await setDoc(userRef, {
         uid: user.uid,
         email: user.email,
         role: role,
+        createdBy: createdBy
         // Add other user-specific fields here
       });
     } catch (error) {

@@ -9,13 +9,14 @@ import { getAuth, createUserWithEmailAndPassword } from '@firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AddLecturer = () => {
-  const { dispatch, addUserToCollection } = useContext(AuthContext); // Access dispatch and addUserToCollection from AuthContext
+  const { dispatch, addUserToCollection, state } = useContext(AuthContext); // Access dispatch and addUserToCollection from AuthContext
   const auth = getAuth();
   
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
+  
 
   const submit = async () => {
     try {
@@ -28,7 +29,8 @@ const AddLecturer = () => {
       const user = userCredential.user;
 
       // Add user to 'lecturers' collection
-      await addUserToCollection(user, 'lecturers');
+      let createdBy= state.user.uid
+      await addUserToCollection(user, 'lecturers', createdBy);
 
       // Optionally, set the role to 'lecturer' in local storage
       const role = 'lecturer';

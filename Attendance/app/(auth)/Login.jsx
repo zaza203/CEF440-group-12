@@ -1,14 +1,14 @@
-
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import {router} from 'expo-router'
+import { View, Text, Image, TouchableOpacity, Alert } from "react-native";
+import { router } from 'expo-router';
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons } from "../../constants";
-import FormField from '../../components/FormField'
-import CustomButton from '../../components/CustomButton'
+import FormField from '../../components/FormField';
+import CustomButton from '../../components/CustomButton';
 import { StatusBar } from "expo-status-bar";
 import { getAuth, signInWithEmailAndPassword } from "@firebase/auth";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from "../../context/AuthContext"; // import your AuthContext
 
@@ -29,22 +29,45 @@ const Login = () => {
   const submit = async () => {
     try {
       const auth = getAuth();
+      const firestore = getFirestore();
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const role = selected; // Role is either 'Lecturer' or 'Admin'
-      dispatch({ type: 'LOGIN', payload: { user: userCredential.user, role } });
-      await AsyncStorage.setItem('user', JSON.stringify(userCredential.user));
-      await AsyncStorage.setItem('role', role);
-      router.push('Dashboard'); // Navigate to Dashboard
+      const uid = userCredential.user.uid;
+
+      let role = selected;
+      let userDoc;
+
+      if (selected === "Admin") {
+        const docRef = doc(firestore, "administrators", uid);
+        userDoc = await getDoc(docRef);
+      } else if (selected === "Lecturer") {
+        const docRef = doc(firestore, "lecturers", uid);
+        userDoc = await getDoc(docRef);
+      }
+
+      if (userDoc.exists()) {
+        dispatch({ type: 'LOGIN', payload: { user: userCredential.user, role } });
+        await AsyncStorage.setItem('user', JSON.stringify(userCredential.user));
+        await AsyncStorage.setItem('role', role);
+
+        if (role === "Admin") {
+          router.push('Dashboard'); // Navigate to Admin Dashboard
+        } else if (role === "Lecturer") {
+          router.push('TDashboard'); // Navigate to Lecturer Dashboard
+        }
+      } else {
+        Alert.alert('Error', 'User not found in the selected role collection');
+      }
     } catch (error) {
       console.error('Authentication error:', error.message);
+      Alert.alert('Error', 'Authentication failed. Please check your credentials.');
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      router.push('Dashboard'); // Redirect to Dashboard if already logged in
-    }
-  }, [user]);
+  // this code checks if the user has already signed in to prevent resigning-in
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push('Dashboard'); // Redirect to Dashboard if already logged in
+  //   }
+  // }, [user]);
 
   if (isLoading) {
     return (

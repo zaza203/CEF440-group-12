@@ -7,11 +7,8 @@ import AddLecturer from '../../admin/AddLecturer'
 import RegisterStudent from '../../admin/RegisterStudent'
 import AddSession from '../../admin/TaddSession';
 import ViewAttendance from '../../admin/ViewAttendance'
-import ViewStudents from '../../admin/ViewStudents'
-import ViewLecturer from '../../admin/ViewLecture'
-import ViewAdmins from '../../admin/ViewAdmins'
 import ViewSession from '../../admin/ViewSession'
-import Dashboard from './TDashboard';
+import TDashboard from './TDashboard';
 import InitiateAttendance from '../../admin/InitiateAttendance'
 import MarkAttendance from "../../admin/MarkAttendance"
 import ConfirmFingerPrint from '../../admin/ConfirmFingerPrint';
@@ -30,7 +27,7 @@ const TDashboardStack = () => {
     headerTitleStyle: {
       fontWeight: 'bold',
 }, }} initialRouteName='dashboard'>
-        <Stack.Screen name='dashboard' component={Dashboard}/>
+        <Stack.Screen name='dashboard' component={TDashboard}/>
         <Stack.Screen name='initiateAttendance' component={InitiateAttendance}/>
         <Stack.Screen name='markAttendance' component={MarkAttendance}/>
         <Stack.Screen name='addSession' component={AddSession}/>

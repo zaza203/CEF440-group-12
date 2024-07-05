@@ -1,77 +1,43 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text } from 'react-native';
+import React, { useContext } from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { AuthContext } from '../../../context/AuthContext';
+import CustomButton from '../../../components/CustomButton';
+import { getAuth, signOut } from '@firebase/auth';
+import { router, useNavigation } from 'expo-router';
 
-const Settings = () => {
-  const profile = {
-    firstName: "Valery",
-    lastName: "Kemenyi",
-    email: "valerykemenyi@gmail.com",
-    phoneNumber: "+237 123-456-789",
-    dateOfBirth: "1980-01-01",
-  };
-  const [form, setForm] = useState(profile);
+const Profile = () => {
+  const navigation= useNavigation()
+  const { state, dispatch } = useContext(AuthContext);
+  const { user } = state;
 
-
-  const getInitials = (firstName, lastName) => {
-    return `${firstName[0]}${lastName[0]}`.toUpperCase();
-  };
-  return (
-    <ScrollView className="flex-1 p-4 bg-white">
+  const handleLogout = async () => {
+    const auth = getAuth();
+    await signOut(auth);
+    dispatch({ type: 'LOGOUT' });
+    navigation.navigate("login")
     
-        <View>
-          <View className="w-full items-center">
-            <View className="bg-primary w-20 h-20 rounded-full flex items-center justify-center  mb-4">
-              <Text className="text-white text-3xl font-pbold ">
-                {getInitials(profile.firstName, profile.lastName)}
-              </Text>
-            </View>
-          </View>
-          <View className="mb-4">
-            <Text className="mb-2">First Name</Text>
-            <Text className="border text-lg font-pmedium border-gray-300 p-2 rounded bg-gray-200">
-              {profile.firstName}
-            </Text>
-          </View>
+  };
 
-          <View className="mb-4">
-            <Text className="mb-2">Last Name</Text>
-            <Text className="border text-lg font-pmedium border-gray-300 p-2 rounded bg-gray-200">
-              {profile.lastName}
-            </Text>
-          </View>
-
-          <View className="mb-4">
-            <Text className="mb-2">Email</Text>
-            <Text className="border text-lg font-pmedium border-gray-300 p-2 rounded bg-gray-200">
-              {profile.email}
-            </Text>
-          </View>
-
-          <View className="mb-4">
-            <Text className="mb-2">Phone Number</Text>
-            <Text className="border text-lg font-pmedium border-secondary p-2 rounded text-secondary">
-              {profile.phoneNumber}
-            </Text>
-          </View>
-            <View className="items-center justify-center pt-4">
-          <TouchableOpacity
-        
-            className="bg-red-200 p-4 rounded-xl w-[200px] items-center justify-center "
-          >
-            <Text className="text-white text-center text-xl font-psemibold">Logout</Text>
-          </TouchableOpacity>
-          </View>
+  return (
+    <SafeAreaView className="bg-white h-full">
+      <View className="mx-2 mt-10">
+        <View className="items-center mb-5">
+          <Text className="text-2xl font-semibold">Profile</Text>
         </View>
-      
-    </ScrollView>
+        <View className="items-center">
+          <Text className="text-lg">Email: {user?.email}</Text>
+        </View>
+        <View className="items-center mt-10">
+          <CustomButton
+            title="Logout"
+            handlepress={handleLogout}
+            containerStyles="mt-8 w-[250]"
+          />
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
-export default Settings;
+export default Profile;

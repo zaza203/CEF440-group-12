@@ -40,26 +40,31 @@ const Dashboard = () => {
           <Action 
             title="View Admin"
             icon={icons.view}
+            handlePress={()=>navigation.navigate('viewAdmins')}
             color="#550a35"
           />
           <Action 
             title="View Students"
             icon={icons.listView}
             color="#040720"
+            handlePress={() =>navigation.navigate('viewStudents')}
           />
           <Action 
             title="View Lecturer"
             icon={icons.view}
+            handlePress={()=>navigation.navigate('viewLecturer')}
             color="#da70d6"
           />
           <Action 
             title="View Attendance"
             icon={icons.listView}
+            handlePress={()=>navigation.navigate('viewAttendance')}
             color="#6495ed"
           />
           <Action 
             title="View Session"
             icon={icons.listView}
+            handlePress={()=>navigation.navigate('viewSession')}
             color="#2c3539"
           />
           </View>
