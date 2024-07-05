@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -25,7 +28,12 @@ public class AttendanceController {
     }
 
     @GetMapping
-    public List<Attendance> getAllAttendances() {
-        return attendanceService.getAllAttendances();
+    public Attendance getAttendanceBySessionDetails(
+            @RequestParam String courseId,
+            @RequestParam String date,
+            @RequestParam String startTime) {
+        LocalDate sessionDate = LocalDate.parse(date);
+        LocalTime sessionStartTime = LocalTime.parse(startTime);
+        return attendanceService.getAttendanceBySessionDetails(courseId, sessionDate, sessionStartTime);
     }
 }

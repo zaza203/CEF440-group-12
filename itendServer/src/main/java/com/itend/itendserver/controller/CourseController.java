@@ -27,9 +27,13 @@ public class CourseController {
         return courseService.addCourse(course);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteCourse(@PathVariable Long id) {
-        courseService.deleteCourse(id);
+    @DeleteMapping("/{courseId}")
+    public void deleteCourse(@PathVariable String courseId) {
+        courseService.deleteCourse(courseId);
+    }
+    @DeleteMapping
+    public void deleteAllCourses() {
+        courseService.deleteAllCourses();
     }
 
     @PutMapping
@@ -40,5 +44,9 @@ public class CourseController {
     @GetMapping
     public List<Course> getAllCourses() {
         return courseService.getAllCourses();
+    }
+    @GetMapping("/{lecturer}")
+    public List<Course> getCoursesByLecturer(@PathVariable String lecturer) {
+        return courseService.getCoursesByLecturer(lecturer);
     }
 }

@@ -14,6 +14,7 @@ public class Session {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String courseId;
+    private String lecturer;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -32,6 +33,14 @@ public class Session {
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
+    }
+
+    public String getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(String lecturer) {
+        this.lecturer = lecturer;
     }
 
     public LocalDate getDate() {
@@ -63,6 +72,7 @@ public class Session {
         return "Session{" +
                 "id=" + id +
                 ", courseId='" + courseId + '\'' +
+                ", lecturer='" + lecturer + '\'' +
                 ", date=" + date +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +

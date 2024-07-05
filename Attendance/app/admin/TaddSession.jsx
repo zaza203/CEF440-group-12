@@ -1,62 +1,76 @@
-
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import SetDate from '../../components/SetDate';
-import { AuthContext } from '../../context/AuthContext';
-import { getFirestore,collection, addDoc } from 'firebase/firestore';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import { addSession } from '../../context/api';
+import { AuthContext } from '../../context/AuthContext';
 
 const AddSession = () => {
   const { state } = useContext(AuthContext);
   const [course, setCourse] = useState('');
   const [instructor, setInstructor] = useState('');
   const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
-  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
-  const firestore = getFirestore();
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
+  const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
 
-  const showTimePicker = () => {
-    setTimePickerVisibility(true);
+  const showStartTimePicker = () => {
+    setStartTimePickerVisibility(true);
   };
 
-  const hideTimePicker = () => {
-    setTimePickerVisibility(false);
+  const hideStartTimePicker = () => {
+    setStartTimePickerVisibility(false);
   };
 
-  const handleConfirmTime = (selectedTime) => {
-    setTime(selectedTime);
-    hideTimePicker();
+  const handleConfirmStartTime = (selectedTime) => {
+    setStartTime(selectedTime);
+    hideStartTimePicker();
+  };
+
+  const showEndTimePicker = () => {
+    setEndTimePickerVisibility(true);
+  };
+
+  const hideEndTimePicker = () => {
+    setEndTimePickerVisibility(false);
+  };
+
+  const handleConfirmEndTime = (selectedTime) => {
+    setEndTime(selectedTime);
+    hideEndTimePicker();
   };
 
   const handleAddSession = async () => {
-    if (!course || !instructor || !date || !time) {
+    if (!course || !instructor || !date || !startTime || !endTime) {
       Alert.alert('Error', 'All fields must be filled');
       return;
     }
 
-    const startTime = new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      time.getHours(),
-      time.getMinutes()
-    );
+    const formattedDate = date.toISOString().split('T')[0];
+    const formattedStartTime = startTime.toTimeString().split(' ')[0];
+    const formattedEndTime = endTime.toTimeString().split(' ')[0];
+
+    const session = {
+      courseId: course,
+      instructor,
+      date: formattedDate,
+      startTime: formattedStartTime,
+      endTime: formattedEndTime,
+      createdBy: state.user.uid,
+      createdAt: new Date(),
+    };
 
     try {
-      await addDoc(collection(firestore, 'sessions'), {
-        course,
-        instructor,
-        startTime,
-        createdBy: state.user.uid,
-        createdAt: new Date(),
-      });
+      await addSession(session);
       Alert.alert('Success', 'Session added successfully!');
       setCourse('');
       setInstructor('');
       setDate(null);
-      setTime(null);
+      setStartTime(null);
+      setEndTime(null);
     } catch (error) {
       console.error('Error adding session: ', error);
       Alert.alert('Error', 'Failed to add session. Please try again.');
@@ -64,7 +78,7 @@ const AddSession = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} className="px-7">
       <View style={styles.form}>
         <Text style={styles.title}>Add Session</Text>
         <TextInput
@@ -75,24 +89,38 @@ const AddSession = () => {
         />
         <TextInput
           style={styles.input}
-          placeholder="Intructor"
+          placeholder="Instructor"
           value={instructor}
           onChangeText={setInstructor}
         />
         <SetDate date={date} setDate={setDate} title="Select Date" />
         <View style={styles.timePickerContainer}>
-          <Text style={styles.label}>Select Time</Text>
-          <TouchableOpacity onPress={showTimePicker} style={styles.timeButton}>
+          <Text style={styles.label}>Select Start Time</Text>
+          <TouchableOpacity onPress={showStartTimePicker} style={styles.timeButton}>
             <Text style={styles.timeText}>
-              {time ? time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Select Time'}
+              {startTime ? startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Select Start Time'}
             </Text>
           </TouchableOpacity>
         </View>
         <DateTimePickerModal
-          isVisible={isTimePickerVisible}
+          isVisible={isStartTimePickerVisible}
           mode="time"
-          onConfirm={handleConfirmTime}
-          onCancel={hideTimePicker}
+          onConfirm={handleConfirmStartTime}
+          onCancel={hideStartTimePicker}
+        />
+        <View style={styles.timePickerContainer}>
+          <Text style={styles.label}>Select End Time</Text>
+          <TouchableOpacity onPress={showEndTimePicker} style={styles.timeButton}>
+            <Text style={styles.timeText}>
+              {endTime ? endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Select End Time'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <DateTimePickerModal
+          isVisible={isEndTimePickerVisible}
+          mode="time"
+          onConfirm={handleConfirmEndTime}
+          onCancel={hideEndTimePicker}
         />
         <TouchableOpacity onPress={handleAddSession} style={styles.submitButton}>
           <Text style={styles.submitButtonText}>Add Session</Text>
@@ -106,11 +134,10 @@ const AddSession = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: '#fff',
   },
   form: {
-    marginTop: 20,
+    marginTop: 0,
   },
   title: {
     fontSize: 24,

@@ -6,6 +6,7 @@ import AddLecturer from '../../admin/AddLecturer'
 import RegisterStudent from '../../admin/RegisterStudent'
 import Create from './Create'
 import AddSession from '../../admin/AddSession'
+import AddCourse from '../../admin/AddCourse';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,6 +26,7 @@ const CreateStack = () => {
       <Stack.Screen name='addLecturer' component={AddLecturer}/>
       <Stack.Screen name='registerStudent' component={RegisterStudent}/>
       <Stack.Screen name='addSession' component={AddSession}/>
+      <Stack.Screen name='addCourse' component={AddCourse}/>
     </Stack.Navigator>
   )
 }

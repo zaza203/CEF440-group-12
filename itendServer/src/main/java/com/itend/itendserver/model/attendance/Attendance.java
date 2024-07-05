@@ -1,5 +1,7 @@
 package com.itend.itendserver.model.attendance;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +13,7 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String session;
-    private String students;
+    private List<String> students;
     private String status; // P or A
 
     public Long getId() {
@@ -30,11 +32,11 @@ public class Attendance {
         this.session = session;
     }
 
-    public String getStudents() {
+    public List<String> getStudents() {
         return students;
     }
 
-    public void setStudents(String students) {
+    public void setStudents(List<String> students) {
         this.students = students;
     }
 
@@ -51,7 +53,7 @@ public class Attendance {
         return "Attendance{" +
                 "id=" + id +
                 ", session='" + session + '\'' +
-                ", students='" + students + '\'' +
+                ", students=" + students +
                 ", status='" + status + '\'' +
                 '}';
     }

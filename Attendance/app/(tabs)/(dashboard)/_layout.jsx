@@ -3,7 +3,7 @@ import React from 'react'
 import AddAdmin from '../../admin/AddAdmin';
 import AddLecturer from '../../admin/AddLecturer'
 import RegisterStudent from '../../admin/RegisterStudent'
-import AddSession from '../../admin/AddSession'
+import AddSession from '../../admin/TaddSession'
 import ViewAttendance from '../../admin/ViewAttendance'
 import ViewStudents from '../../admin/ViewStudents'
 import ViewLecturers from '../../admin/ViewLecturers';
@@ -12,6 +12,8 @@ import ViewSession from '../../admin/ViewSession'
 import Dashboard from './Dashboard';
 import FingerPrintRegister from '../../admin/FingerPrintRegister';
 import ConfirmFingerPrint from '../../admin/ConfirmFingerPrint';
+import AddCourse from '../../admin/AddCourse';
+
 
 const Stack = createStackNavigator();
 
@@ -38,6 +40,7 @@ const DashboardStack = () => {
         <Stack.Screen name='viewSession' component={ViewSession}/>
         <Stack.Screen name='fingerPrint' component={FingerPrintRegister}/>
         <Stack.Screen name='Place FingerPrint' component={ConfirmFingerPrint}/>
+        <Stack.Screen name='addCourse' component={AddCourse}/>
     </Stack.Navigator>
     
   )

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, FlatList, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 
-const CustomDropdown = ({ data, onSelect, placeholder }) => {
+const CustomDropdown = ({ title, data, onSelect, placeholder }) => {
   const [search, setSearch] = useState('');
   const [filteredData, setFilteredData] = useState(data);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -31,6 +32,12 @@ const CustomDropdown = ({ data, onSelect, placeholder }) => {
           setDropdownVisible(true);
         }}
         className="font-psemibold text-base text-black-200 h-25"
+      />
+      <FontAwesome
+        name="caret-down"
+        size={24}
+        color="black"
+        style={styles.icon}
       />
       {dropdownVisible && (
         <View style={styles.dropdown}>
@@ -62,6 +69,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
+  },
+  icon: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
   },
   dropdown: {
     position: 'absolute',

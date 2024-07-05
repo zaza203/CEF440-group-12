@@ -36,6 +36,12 @@ const Create = () => {
           handlePress={()=>navigation.navigate("addSession")}
           color="#2c3539"
         />
+        <Action 
+          title="Add Course"
+          icon={icons.addSession}
+          color="#49413f"
+          handlePress={()=>navigation.navigate("addCourse")}
+        />
         </View>
       </ScrollView>
     </SafeAreaView>
