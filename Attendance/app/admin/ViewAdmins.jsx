@@ -23,7 +23,7 @@ const ViewAdmins = () => {
       } catch (error) {
         console.error('Error fetching administrators: ', error);
         setLoading(false);
-      }
+      } 
     };
 
     fetchAdmins();
