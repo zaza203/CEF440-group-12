@@ -198,8 +198,20 @@ const ViewStudents = () => {
                 onChangeText={(text) => setForm({ ...form, level: text })}
               />
               <View className="flex-row justify-end">
-                <Button title="Cancel" onPress={() => setModalVisible(false)} />
-                <Button title="Save" onPress={saveEdit} />
+              <View className="flex-row justify-end">
+              <TouchableOpacity
+                className="bg-gray-500 p-2 rounded mr-2"
+                onPress={() => setModalVisible(false)}
+              >
+                <Text className="text-white">Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="bg-blue-700 p-2 rounded"
+                onPress={saveEdit}
+              >
+                <Text className="text-white">Save</Text>
+              </TouchableOpacity>
+            </View>
               </View>
             </View>
           </View>

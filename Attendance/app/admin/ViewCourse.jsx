@@ -152,10 +152,21 @@ const ViewCourse = () => {
               value={form.department}
               onChangeText={(text) => setForm({ ...form, department: text })}
             />
-            <View className="flex-row  justify-end">
-              <TouchableOpacity onPress={() => setModalVisible(false)}> man</TouchableOpacity>
-              <TouchableOpacity  onPress={handleEditCourse} >woman</TouchableOpacity>
+            <View className="flex-row justify-end">
+              <TouchableOpacity
+                className="bg-gray-500 p-2 rounded mr-2"
+                onPress={() => setModalVisible(false)}
+              >
+                <Text className="text-white">Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="bg-blue-700 p-2 rounded"
+                onPress={handleEditCourse}
+              >
+                <Text className="text-white">Save</Text>
+              </TouchableOpacity>
             </View>
+
           </View>
         </View>
       </Modal>
