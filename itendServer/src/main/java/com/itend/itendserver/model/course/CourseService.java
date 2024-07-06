@@ -22,14 +22,9 @@ public class CourseService {
 
     public void deleteCourse(String courseId) {
         Optional<Course> courseOptional = courseRepository.findByCourseId(courseId);
-        courseOptional.ifPresent(courseRepository::delete);
+        courseOptional.ifPresent(course -> courseRepository.delete(course));
     }
 
-    public void deleteCourseById(Long id) {
-        courseRepository.deleteById(id);
-//        Optional<Course> courseOptional = courseRepository.findById(id);
-//        courseOptional.ifPresent(courseRepository::delete);
-    }
 
     public void deleteAllCourses() {
         courseRepository.deleteAll();
