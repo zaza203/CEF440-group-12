@@ -13,7 +13,6 @@ const ViewSession = () => {
         const response = await getAllSessions();
         const sessionsWithStatus = response.data.map((session) => {
           const { date, startTime, endTime } = session;
-          const sessionDate = new Date(date);
           const sessionStartTime = new Date(`${date}T${startTime}`);
           const sessionEndTime = new Date(`${date}T${endTime}`);
           const currentDateTime = new Date();
@@ -39,10 +38,6 @@ const ViewSession = () => {
     fetchSessions();
   }, []);
 
-  const ongoingSession = sessions.find(session => session.status === 'Ongoing');
-  const pastSessions = sessions.filter(session => session.status === 'Ended');
-  const upcomingSessions = sessions.filter(session => session.status === 'Upcoming');
-
   if (loading) {
     return (
       <View style={styles.loadingContainer}>
@@ -54,30 +49,16 @@ const ViewSession = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Session Records</Text>
-      {ongoingSession && (
-        <>
-          <Text style={styles.sectionTitle}>Ongoing Session</Text>
-          <SessionRecord sessionId={ongoingSession.sessionId} status={ongoingSession.status} />
-        </>
-      )}
-      <Text style={styles.sectionTitle}>Upcoming Sessions</Text>
       <FlatList
-        data={upcomingSessions}
+        data={sessions}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <SessionRecord
-            sessionId={item.sessionId}
-            status={item.status}
-          />
-        )}
-      />
-      <Text style={styles.sectionTitle}>Past Sessions</Text>
-      <FlatList
-        data={pastSessions}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <SessionRecord
-            sessionId={item.sessionId}
+            courseId={item.courseId}
+            lecturer={item.lecturer}
+            date={item.date}
+            startTime={item.startTime}
+            endTime={item.endTime}
             status={item.status}
           />
         )}
@@ -96,11 +77,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 20,
     textAlign: 'center',
-  },
-  sectionTitle: {
-    fontSize: 18,
-    marginVertical: 10,
-    fontWeight: 'bold',
   },
   loadingContainer: {
     flex: 1,

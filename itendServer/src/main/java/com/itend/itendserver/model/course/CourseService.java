@@ -24,8 +24,6 @@ public class CourseService {
         Optional<Course> courseOptional = courseRepository.findByCourseId(courseId);
         courseOptional.ifPresent(course -> courseRepository.delete(course));
     }
-
-
     public void deleteAllCourses() {
         courseRepository.deleteAll();
     }

@@ -31,7 +31,6 @@ public class CourseController {
     public void deleteCourse(@PathVariable String courseId) {
         courseService.deleteCourse(courseId);
     }
-
     @DeleteMapping
     public void deleteAllCourses() {
         courseService.deleteAllCourses();

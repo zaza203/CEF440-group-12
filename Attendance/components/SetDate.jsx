@@ -23,7 +23,7 @@ const SetDate = ({ date, setDate, title }) => {
   return (
     <View style={styles.container} className="">
       <Text style={styles.title}>{title}</Text>
-      <TouchableOpacity onPress={showDatePicker}  className="bg-gray-200 p-3 mx-3 rounded-md items-center font-pregular">
+      <TouchableOpacity onPress={showDatePicker}  className="bg-gray-200 py-3 rounded-md items-center font-pregular">
         <Text className="font-pmedium  " >
           {date ? date.toDateString() : 'Select Date'}
         </Text>

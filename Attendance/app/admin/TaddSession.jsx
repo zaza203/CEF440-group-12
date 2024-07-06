@@ -1,25 +1,83 @@
-import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import SetDate from '../../components/SetDate';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import { addSession } from '../../context/api';
+import { addSession, getAllCourses } from '../../context/api';
 import { AuthContext } from '../../context/AuthContext';
 import CustomDropdown from '../../components/CustomDropDown';
 
-
 const AddSession = () => {
   const { state } = useContext(AuthContext);
+  const [courses, setCourses] = useState([]);
   const [course, setCourse] = useState('');
-  const [instructor, setInstructor] = useState('');
+  const [lecturer, setLecturer] = useState('');
   const [date, setDate] = useState(null);
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
   const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
-  const [selectedCourse, setSelectedCourse] = useState('');
-  const [selectedLecturer, setSelectedLecturer] = useState('');
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  const fetchCourses = async () => {
+    try {
+      const response = await getAllCourses();
+      if (response.status === 200) {
+        setCourses(response.data);
+      } else {
+        Alert.alert('Error', 'Failed to fetch courses');
+      }
+    } catch (error) {
+      console.error('Error fetching courses', error);
+      Alert.alert('Error', 'Failed to fetch courses');
+    }
+  };
+
+  const handleCourseSelect = (selectedCourseId) => {
+    const selectedCourse = courses.find(course => course.courseId === selectedCourseId);
+    if (selectedCourse) {
+      setCourse(selectedCourse.courseId);
+      setLecturer(selectedCourse.lecturer);
+    }
+  };
+
+  const handleAddSession = async () => {
+    if (!course || !lecturer || !date || !startTime || !endTime) {
+      Alert.alert('Error', 'All fields must be filled');
+      return;
+    }
+
+    const formattedDate = date.toISOString().split('T')[0];
+    const formattedStartTime = startTime.toTimeString().split(' ')[0];
+    const formattedEndTime = endTime.toTimeString().split(' ')[0];
+
+    const session = {
+      courseId: course,
+      instructor: lecturer,
+      date: formattedDate,
+      startTime: formattedStartTime,
+      endTime: formattedEndTime,
+      createdBy: state.user.uid,
+      createdAt: new Date(),
+    };
+
+    try {
+      await addSession(session);
+      Alert.alert('Success', 'Session added successfully!');
+      setCourse('');
+      setLecturer('');
+      setDate(null);
+      setStartTime(null);
+      setEndTime(null);
+    } catch (error) {
+      console.error('Error adding session: ', error);
+      Alert.alert('Error', 'Failed to add session. Please try again.');
+    }
+  };
 
   const showStartTimePicker = () => {
     setStartTimePickerVisibility(true);
@@ -47,98 +105,31 @@ const AddSession = () => {
     hideEndTimePicker();
   };
 
-  const fetchCourses = async () => {
-    try {
-        const response = await getAllCourses();
-        if (response.status === 200) {
-            setCourses(response.data);
-        } else {
-            Alert.alert('Error', 'Failed to fetch courses');
-        }
-    } catch (error) {
-        console.error('Error fetching courses', error);
-        Alert.alert('Error', 'Failed to fetch courses');
-    }
-  };
-
-  const fetchCoursesByLecturer = async (lecturer) => {
-    try {
-      const response = await getCoursesByLecturer(lecturer);
-      if (response.status === 200) {
-        setCourses(response.data);
-      } else {
-        Alert.alert('Error', 'Failed to fetch courses');
-      }
-    } catch (error) {
-      console.error('Error fetching courses', error);
-      Alert.alert('Error', 'Failed to fetch courses');
-    }
-  };
-
-  const handleAddSession = async () => {
-    if (!course || !instructor || !date || !startTime || !endTime) {
-      Alert.alert('Error', 'All fields must be filled');
-      return;
-    }
-
-    const formattedDate = date.toISOString().split('T')[0];
-    const formattedStartTime = startTime.toTimeString().split(' ')[0];
-    const formattedEndTime = endTime.toTimeString().split(' ')[0];
-
-    const session = {
-      courseId: course,
-      instructor,
-      date: formattedDate,
-      startTime: formattedStartTime,
-      endTime: formattedEndTime,
-      createdBy: state.user.uid,
-      createdAt: new Date(),
-    };
-
-    try {
-      await addSession(session);
-      Alert.alert('Success', 'Session added successfully!');
-      setCourse('');
-      setInstructor('');
-      setDate(null);
-      setStartTime(null);
-      setEndTime(null);
-    } catch (error) {
-      console.error('Error adding session: ', error);
-      Alert.alert('Error', 'Failed to add session. Please try again.');
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container} className="px-7">
       <View style={styles.form}>
         <Text style={styles.title}>Add Session</Text>
         <CustomDropdown
-          data={Courses}
-          placeholder="Course"
-          onSelect={(item) => setSelectedCourse(item)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Course"
+          data={courses.map((item) => item.courseId)}
+          placeholder="Select Course"
+          onSelect={handleCourseSelect}
           value={course}
-          onChangeText={setCourse}
+          otherStyles="mt-2"
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Instructor"
-          value={instructor}
-          onChangeText={setInstructor}
-        />
+        {lecturer && (
+          <View style={styles.input} className="justify-center align-center">
+            <Text style={styles.lecturer} className="font-bold">{lecturer}</Text>
+          </View>
+        )}
         <SetDate date={date} setDate={setDate} title="Select Date" />
-        <View style={styles.timePickerContainer}>
-          <Text style={styles.label}>Select Start Time</Text>
-          <TouchableOpacity onPress={showStartTimePicker} style={styles.timeButton}>
-            <Text style={styles.timeText}>
-              {startTime ? startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Select Start Time'}
-            </Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.timePickerContainer}>
+            <Text style={styles.label}>Select Start Time</Text>
+            <TouchableOpacity onPress={showStartTimePicker} style={styles.timeButton} className="bg-gray-200 py-3">
+              <Text style={styles.timeText}>
+                {startTime ? startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Select Start Time'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         <DateTimePickerModal
           isVisible={isStartTimePickerVisible}
           mode="time"
@@ -147,7 +138,7 @@ const AddSession = () => {
         />
         <View style={styles.timePickerContainer}>
           <Text style={styles.label}>Select End Time</Text>
-          <TouchableOpacity onPress={showEndTimePicker} style={styles.timeButton}>
+          <TouchableOpacity onPress={showEndTimePicker} style={styles.timeButton} className="bg-gray-200 py-3">
             <Text style={styles.timeText}>
               {endTime ? endTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Select End Time'}
             </Text>
@@ -159,7 +150,7 @@ const AddSession = () => {
           onConfirm={handleConfirmEndTime}
           onCancel={hideEndTimePicker}
         />
-        <TouchableOpacity onPress={handleAddSession} style={styles.submitButton}>
+        <TouchableOpacity onPress={handleAddSession} style={styles.submitButton} className="bg-primary">
           <Text style={styles.submitButtonText}>Add Session</Text>
         </TouchableOpacity>
       </View>
@@ -183,24 +174,27 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    borderWidth: 1,
+    height: 50,
+    marginTop: 10,
+    marginHorizontal: 15,
     borderColor: '#ccc',
+    borderWidth: 1,
     borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
-    fontSize: 16,
-  },
-  timePickerContainer: {
-    marginBottom: 20,
+    paddingHorizontal: 10,
   },
   label: {
     marginBottom: 5,
     fontSize: 16,
     color: '#333',
   },
+  lecturer: {
+    fontSize: 16,
+    color: '#333',
+  },
+  timePickerContainer: {
+    marginBottom: 20,
+  },
   timeButton: {
-    padding: 10,
-    backgroundColor: '#e0e0e0',
     borderRadius: 5,
     alignItems: 'center',
   },
@@ -208,7 +202,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   submitButton: {
-    backgroundColor: '#007BFF',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
