@@ -6,7 +6,7 @@ const api = axios.create({
   baseURL: API_URL,
 });
 
-export const getAllSessions = () => api.get('/sessions');
+export const getAllSessions = () => api.get('/sessions/all');
 export const addSession = (session) => api.post('/sessions', session);
 export const deleteSession = (id) => api.delete(`/sessions/${id}`);
 export const editSession = (session) => api.put('/sessions', session);
