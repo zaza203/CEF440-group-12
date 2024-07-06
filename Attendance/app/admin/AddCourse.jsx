@@ -70,7 +70,6 @@ const AddCourse = () => {
           value={form.code}
           handleChangeText={(e) => setForm({ ...form, code: e })}
           otherStyles="mt-2"
-          keyboardType="email-address"
         />
         <FormField
           title="Course Title"

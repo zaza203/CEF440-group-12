@@ -25,12 +25,27 @@ public class CourseService {
         courseOptional.ifPresent(courseRepository::delete);
     }
 
+    public void deleteCourseById(Long id) {
+        courseRepository.deleteById(id);
+//        Optional<Course> courseOptional = courseRepository.findById(id);
+//        courseOptional.ifPresent(courseRepository::delete);
+    }
+
     public void deleteAllCourses() {
         courseRepository.deleteAll();
     }
 
     public Course editCourse(Course course) {
-        return courseRepository.save(course);
+        Optional<Course> existingCourse = courseRepository.findByCourseId(course.getCourseId());
+        if (existingCourse.isPresent()) {
+            Course existing = existingCourse.get();
+            existing.setName(course.getName());
+            existing.setDepartment(course.getDepartment());
+            existing.setLecturer(course.getLecturer());
+            return courseRepository.save(existing);
+        } else {
+            throw new IllegalStateException("Course does not exist");
+        }
     }
 
     public List<Course> getAllCourses() {
