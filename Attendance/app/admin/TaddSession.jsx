@@ -6,6 +6,8 @@ import SetDate from '../../components/SetDate';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { addSession } from '../../context/api';
 import { AuthContext } from '../../context/AuthContext';
+import CustomDropdown from '../../components/CustomDropDown';
+
 
 const AddSession = () => {
   const { state } = useContext(AuthContext);
@@ -16,6 +18,8 @@ const AddSession = () => {
   const [endTime, setEndTime] = useState(null);
   const [isStartTimePickerVisible, setStartTimePickerVisibility] = useState(false);
   const [isEndTimePickerVisible, setEndTimePickerVisibility] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [selectedLecturer, setSelectedLecturer] = useState('');
 
   const showStartTimePicker = () => {
     setStartTimePickerVisibility(true);
@@ -41,6 +45,34 @@ const AddSession = () => {
   const handleConfirmEndTime = (selectedTime) => {
     setEndTime(selectedTime);
     hideEndTimePicker();
+  };
+
+  const fetchCourses = async () => {
+    try {
+        const response = await getAllCourses();
+        if (response.status === 200) {
+            setCourses(response.data);
+        } else {
+            Alert.alert('Error', 'Failed to fetch courses');
+        }
+    } catch (error) {
+        console.error('Error fetching courses', error);
+        Alert.alert('Error', 'Failed to fetch courses');
+    }
+  };
+
+  const fetchCoursesByLecturer = async (lecturer) => {
+    try {
+      const response = await getCoursesByLecturer(lecturer);
+      if (response.status === 200) {
+        setCourses(response.data);
+      } else {
+        Alert.alert('Error', 'Failed to fetch courses');
+      }
+    } catch (error) {
+      console.error('Error fetching courses', error);
+      Alert.alert('Error', 'Failed to fetch courses');
+    }
   };
 
   const handleAddSession = async () => {
@@ -81,6 +113,11 @@ const AddSession = () => {
     <SafeAreaView style={styles.container} className="px-7">
       <View style={styles.form}>
         <Text style={styles.title}>Add Session</Text>
+        <CustomDropdown
+          data={Courses}
+          placeholder="Course"
+          onSelect={(item) => setSelectedCourse(item)}
+        />
         <TextInput
           style={styles.input}
           placeholder="Course"

@@ -6,38 +6,17 @@ import FormField from '../../components/FormField';
 import CustomButton from '../../components/CustomButton';
 import CustomDropdown from '../../components/CustomDropDown';
 import { AuthContext } from '../../context/AuthContext';
-import { editCourse } from '../../context/api'; // Assuming you have an editCourse function in your API
+import { editCourse } from '../../context/api';
 
 const EditCourse = ({ route, navigation }) => {
-  const { course } = route.params; // Get course data from navigation params
-  const { fetchAllUsers } = useContext(AuthContext);
+  const { course } = route.params;
 
   const [form, setForm] = useState({
     code: course.courseId,
     title: course.name,
-    lecturer: '', // Assuming lecturer will be updated separately
+    lecturer: course.lecturer,
     department: course.department,
   });
-
-  const [lecturers, setLecturers] = useState([]);
-
-  useEffect(() => {
-    fetchLecturers();
-  }, []);
-
-  const fetchLecturers = async () => {
-    try {
-      const users = await fetchAllUsers();
-      if (users && users.lecturers) {
-        setLecturers(users.lecturers.map((lecturer) => lecturer.email));
-      } else {
-        Alert.alert('Error', 'Failed to fetch lecturers');
-      }
-    } catch (error) {
-      console.error('Error fetching lecturers', error);
-      Alert.alert('Error', 'Failed to fetch lecturers');
-    }
-  };
 
   const handleSaveCourse = async () => {
     try {
@@ -47,10 +26,10 @@ const EditCourse = ({ route, navigation }) => {
         department: form.department,
         lecturer: form.lecturer,
       };
-      const response = await editCourse(updatedCourse); // Call editCourse API
+      const response = await editCourse(updatedCourse);
       if (response.status === 200) {
         Alert.alert('Success', 'Course updated successfully');
-        navigation.goBack(); // Navigate back after successful update
+        navigation.goBack();
       } else {
         Alert.alert('Error', 'Failed to update course');
       }
@@ -70,29 +49,29 @@ const EditCourse = ({ route, navigation }) => {
           value={form.code}
           onChangeText={(value) => setForm({ ...form, code: value })}
           otherStyles="mt-1"
-          keyboardType="email-address"
+          smallStyle="text-gray-400"
+          editable={false}
         />
         <FormField
           title="Course Title"
           placeholder="Enter course title"
           value={form.title}
-          onChangeText={(value) => setForm({ ...form, title: value })}
-          otherStyles="mt-2"
+          handleChangeText={(value) => setForm({ ...form, title: value })}
+          otherStyles="mt-1"
         />
-        <CustomDropdown
+        <FormField
           title="Lecturer"
-          data={lecturers}
-          onSelect={(lecturer) => setForm({ ...form, lecturer })}
           placeholder="Select Lecturer"
           value={form.lecturer}
-          otherStyles="mt-2"
+          handleChangeText={(value) => setForm({ ...form, lecturer: value })}
+          otherStyles="mt-1"
         />
         <FormField
           title="Department"
           placeholder="Enter course department"
           value={form.department}
-          onChangeText={(value) => setForm({ ...form, department: value })}
-          otherStyles="mt-2"
+          handleChangeText={(value) => setForm({ ...form, department: value })}
+          otherStyles="mt-1"
         />
         <View style={styles.buttonContainer}>
             <CustomButton
@@ -125,7 +104,7 @@ const styles = {
   },
   buttonContainer: {
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 5,
   },
 };
 
