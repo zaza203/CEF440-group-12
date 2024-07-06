@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator, TouchableOpacity, Modal, TextInput, Butt
 import { Picker } from '@react-native-picker/picker';
 import { getFirestore, collection, getDocs, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
-import CustomButton from '../../components/CustomButton'; // Adjust the import path as necessary
+import CustomButton from '../../components/CustomButton';
 
 const ViewStudents = () => {
   const [students, setStudents] = useState([]);
