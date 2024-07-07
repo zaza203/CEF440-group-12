@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { View, FlatList, Text, ActivityIndicator, TouchableOpacity, TextInput, Button } from 'react-native';
+import React, { useState } from 'react';
+import { View, FlatList, Text, ActivityIndicator, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import { useNavigation } from '@react-navigation/native';
 import { getAllCourses, deleteCourse, editCourse } from '../../context/api';
 import CustomButton from '../../components/CustomButton';
 import Modal from 'react-native-modal';
@@ -18,17 +17,20 @@ const ViewCourse = () => {
     lecturer: '',
     department: '',
   });
+  const [viewCoursesTriggered, setViewCoursesTriggered] = useState(false);
 
   const fetchCourses = async (department) => {
     setLoading(true);
     try {
       const response = await getAllCourses();
-      const filteredCourses = response.data.filter(course => course.department === department);
+      const filteredCourses = department ? response.data.filter(course => course.department === department) : response.data;
       setCourses(filteredCourses);
     } catch (error) {
       console.error('Error fetching courses:', error);
+      Alert.alert('Error', 'Failed to fetch courses');
     } finally {
       setLoading(false);
+      setViewCoursesTriggered(true);
     }
   };
 
@@ -44,12 +46,29 @@ const ViewCourse = () => {
   };
 
   const handleDeleteCourse = async (courseId) => {
-    try {
-      await deleteCourse(courseId);
-      setCourses(courses.filter(course => course.courseId !== courseId));
-    } catch (error) {
-      console.error('Error deleting course:', error.response ? error.response.data : error.message);
-    }
+    Alert.alert(
+      'Confirm Deletion',
+      'Delete this course? This action cannot be undone.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteCourse(courseId);
+              setCourses(courses.filter(course => course.courseId !== courseId));
+            } catch (error) {
+              console.error('Error deleting course:', error.response ? error.response.data : error.message);
+              Alert.alert('Error', 'Failed to delete course');
+            }
+          },
+        },
+      ]
+    );
   };
 
   const handleEditCourse = async () => {
@@ -61,19 +80,13 @@ const ViewCourse = () => {
         department: form.department,
       });
       setCourses(courses.map(course => (course.courseId === selectedCourse.courseId ? { ...selectedCourse, ...form } : course)));
-      setModalVisible(false);
+      setModalVisible(false);   
+      Alert.alert("Course Edited successfully")
     } catch (error) {
       console.error('Error editing course:', error);
+      Alert.alert('Error', 'Failed to edit course');
     }
   };
-
-  if (loading) {
-    return (
-      <View className="flex-1 justify-center items-center">
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
-    );
-  }
 
   return (
     <View className="flex-1 p-5 bg-[#F0F0F0]">
@@ -86,6 +99,7 @@ const ViewCourse = () => {
             onValueChange={(itemValue) => setSelectedDepartment(itemValue)}
           >
             <Picker.Item label="Select Department" value="" />
+            <Picker.Item label="View All" value="ALL" />
             <Picker.Item label="CE" value="CE" />
             <Picker.Item label="EE" value="EE" />
             <Picker.Item label="CIV" value="CIV" />
@@ -95,29 +109,37 @@ const ViewCourse = () => {
       </View>
       <CustomButton
         title="View Courses"
-        handlepress={() => fetchCourses(selectedDepartment)}
+        handlepress={() => fetchCourses(selectedDepartment === 'ALL' ? '' : selectedDepartment)}
         containerStyles="bg-blue-700 rounded-2xl min-h-[62px] justify-center items-center"
         textStyles="text-white text-lg"
       />
-      <FlatList
-        data={courses}
-        keyExtractor={(item) => item.courseId.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity className="bg-white p-4 mb-3 rounded-lg shadow" onPress={() => handleCoursePress(item)}>
-            <Text className="text-xl font-bold">{item.name}</Text>
-            <Text className="text-lg mt-2">Code: {item.courseId}</Text>
-            <Text className="text-lg mt-1">Department: {item.department}</Text>
-            <View className="flex-row mt-3">
-              <TouchableOpacity className="bg-green-500 p-2 rounded mr-2" onPress={() => handleCoursePress(item)}>
-                <Text className="text-white">Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity className="bg-red-500 p-2 rounded" onPress={() => handleDeleteCourse(item.courseId)}>
-                <Text className="text-white">Delete</Text>
-              </TouchableOpacity>
+      {loading ? (
+        <View className="flex-1 justify-center items-center">
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      ) : viewCoursesTriggered && courses.length === 0 ? (
+        <Text className="text-center text-lg mt-5">No courses found</Text>
+      ) : (
+        <FlatList
+          data={courses}
+          keyExtractor={(item) => item.courseId.toString()}
+          renderItem={({ item }) => (
+            <View className="bg-white p-4 mb-3 rounded-lg shadow" >
+              <Text className="text-xl font-bold">{item.name}</Text>
+              <Text className="text-lg mt-2">Code: {item.courseId}</Text>
+              <Text className="text-lg mt-1">Department: {item.department}</Text>
+              <View className="flex-row mt-3">
+                <TouchableOpacity className="bg-green-500 p-2 rounded mr-2" onPress={() => handleCoursePress(item)}>
+                  <Text className="text-white">Edit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity className="bg-red-500 p-2 rounded" onPress={() => handleDeleteCourse(item.courseId)}>
+                  <Text className="text-white">Delete</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </TouchableOpacity>
-        )}
-      />
+          )}
+        />
+      )}
       <Modal
         animationType="slide"
         transparent={true}
@@ -166,7 +188,6 @@ const ViewCourse = () => {
                 <Text className="text-white">Save</Text>
               </TouchableOpacity>
             </View>
-
           </View>
         </View>
       </Modal>
@@ -175,3 +196,4 @@ const ViewCourse = () => {
 };
 
 export default ViewCourse;
+

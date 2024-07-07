@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, TouchableOpacity, Modal, TextInput, Button, Alert, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ActivityIndicator, TouchableOpacity, Modal, TextInput, Alert, FlatList } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { getFirestore, collection, getDocs, updateDoc, deleteDoc, doc } from 'firebase/firestore';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
@@ -23,11 +23,12 @@ const ViewStudents = () => {
       querySnapshot.forEach((doc) => {
         studentsData.push({ id: doc.id, ...doc.data() });
       });
-      setStudents(studentsData.filter((student) => student.level === selectedLevel));
+      const filteredStudents = selectedLevel === 'ALL' ? studentsData : studentsData.filter((student) => student.level === selectedLevel);
+      setStudents(filteredStudents);
       setShowStudents(true);
-      setLoading(false);
     } catch (error) {
       console.error('Error fetching students: ', error);
+    } finally {
       setLoading(false);
     }
   };
@@ -102,6 +103,7 @@ const ViewStudents = () => {
           style={{ height: 50, width: 300, borderBottomWidth: 6 }}
         >
           <Picker.Item label="Select level to view students" value={null} />
+          <Picker.Item label="View All" value="ALL" />
           <Picker.Item label="200" value="200" />
           <Picker.Item label="300" value="300" />
           <Picker.Item label="400" value="400" />
@@ -115,6 +117,7 @@ const ViewStudents = () => {
             style={{ height: 50, width: 200 }}
           >
             <Picker.Item label="Select level to view students" value={null} />
+            <Picker.Item label="View All" value="ALL" />
             <Picker.Item label="200" value="200" />
             <Picker.Item label="300" value="300" />
             <Picker.Item label="400" value="400" />
@@ -198,20 +201,18 @@ const ViewStudents = () => {
                 onChangeText={(text) => setForm({ ...form, level: text })}
               />
               <View className="flex-row justify-end">
-              <View className="flex-row justify-end">
-              <TouchableOpacity
-                className="bg-gray-500 p-2 rounded mr-2"
-                onPress={() => setModalVisible(false)}
-              >
-                <Text className="text-white">Cancel</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                className="bg-blue-700 p-2 rounded"
-                onPress={saveEdit}
-              >
-                <Text className="text-white">Save</Text>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity
+                  className="bg-gray-500 p-2 rounded mr-2"
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text className="text-white">Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  className="bg-blue-700 p-2 rounded"
+                  onPress={saveEdit}
+                >
+                  <Text className="text-white">Save</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>

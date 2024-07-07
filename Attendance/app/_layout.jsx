@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 import { SplashScreen } from "expo-router";
 import { useFonts } from "expo-font";
-import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from "../context/AuthContext";
 
 import index from './index'
