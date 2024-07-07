@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Alert, StyleSheet } from "react-native";
+import { View, Alert, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "expo-router";
 import CustomButton from "../../components/CustomButton";
@@ -10,7 +10,7 @@ const InitiateAttendance = () => {
   const navigation = useNavigation();
   const [sessions, setSessions] = useState([]);
   const [selectedSession, setSelectedSession] = useState("");
-  const timeLimits = [5, 10, 15, 20, 25, 30];
+  const timeLimits = [1, 5, 10, 15, 20, 25, 30];
   const [selectedTimeLimit, setSelectedTimeLimit] = useState("");
 
   useEffect(() => {
@@ -41,8 +41,7 @@ const InitiateAttendance = () => {
       Alert.alert("Error", "Please select a session and time limit");
       return;
     }
-    Alert.alert("Success", "Session added successfully");
-    navigation.navigate("confirmFingerprint");
+    navigation.navigate("attend", { selectedTimeLimit, courseId: selectedSession.courseId });
   };
 
   return (
@@ -62,7 +61,7 @@ const InitiateAttendance = () => {
         />
         <CustomButton
           title="Initiate"
-          handlePress={handleInitiate}
+          handlepress={handleInitiate}
         />
       </View>
     </SafeAreaView>

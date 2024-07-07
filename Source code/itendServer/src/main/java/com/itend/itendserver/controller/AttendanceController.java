@@ -23,8 +23,8 @@ public class AttendanceController {
     private AttendanceService attendanceService;
 
     @PostMapping
-    public Attendance markAttendance(@RequestBody Attendance attendance) {
-        return attendanceService.markAttendance(attendance);
+    public Attendance markAttendance(@RequestParam String courseId, @RequestBody List<String> studentIds) {
+        return attendanceService.markAttendance(courseId, studentIds);
     }
 
     @GetMapping

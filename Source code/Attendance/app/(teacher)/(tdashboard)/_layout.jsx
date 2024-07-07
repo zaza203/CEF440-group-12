@@ -12,6 +12,7 @@ import TDashboard from './TDashboard';
 import InitiateAttendance from '../../admin/InitiateAttendance'
 import MarkAttendance from "../../admin/MarkAttendance"
 import ConfirmFingerPrint from '../../admin/ConfirmFingerPrint';
+import Attend from '../../admin/Attend';
 
 import { ScreenNavigationContainer } from 'react-native-screens';
 import { NavigationContainer } from '@react-navigation/native';
@@ -33,6 +34,7 @@ const TDashboardStack = () => {
         <Stack.Screen name='addSession' component={AddSession}/>
         <Stack.Screen name = 'viewAttendance' component={ViewAttendance}/>
         <Stack.Screen name='viewSession' component={ViewSession}/>
+        <Stack.Screen name='attend' component={Attend}/>
         <Stack.Screen name='confirmFingerprint' component={ConfirmFingerPrint}/>
     </Stack.Navigator>
     

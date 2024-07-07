@@ -1,20 +1,24 @@
 package com.itend.itendserver.model.attendance;
 
+import com.itend.itendserver.model.session.Session;
+import jakarta.persistence.*;
 import java.util.List;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 
 @Entity
 public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String session;
-    private List<String> students;
-    private String status; // P or A
+
+    @ManyToOne
+    @JoinColumn(name = "session_id", nullable = false)
+    private Session session;
+
+    @ElementCollection
+    private List<String> studentIds;
+    private String status; // P for present, A for absent
+
+    // Getters and setters
 
     public Long getId() {
         return id;
@@ -24,20 +28,20 @@ public class Attendance {
         this.id = id;
     }
 
-    public String getSession() {
+    public Session getSession() {
         return session;
     }
 
-    public void setSession(String session) {
+    public void setSession(Session session) {
         this.session = session;
     }
 
-    public List<String> getStudents() {
-        return students;
+    public List<String> getStudentIds() {
+        return studentIds;
     }
 
-    public void setStudents(List<String> students) {
-        this.students = students;
+    public void setStudentIds(List<String> studentIds) {
+        this.studentIds = studentIds;
     }
 
     public String getStatus() {
@@ -52,8 +56,8 @@ public class Attendance {
     public String toString() {
         return "Attendance{" +
                 "id=" + id +
-                ", session='" + session + '\'' +
-                ", students=" + students +
+                ", session=" + session +
+                ", studentIds=" + studentIds +
                 ", status='" + status + '\'' +
                 '}';
     }
