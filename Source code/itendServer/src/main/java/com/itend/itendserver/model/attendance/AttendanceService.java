@@ -37,4 +37,8 @@ public class AttendanceService {
         return attendanceRepository.findById(session.getId())
                 .orElseThrow(() -> new RuntimeException("Attendance not found"));
     }
+
+    public List<Attendance> getAllAttendance() {
+        return attendanceRepository.findAll();
+    }
 }
