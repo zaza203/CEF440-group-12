@@ -192,6 +192,7 @@ const AddSession = () => {
             <Text style={styles.lecturer} className="font-bold">{lecturer}</Text>
           </View>
         )}
+        
         <SetDate date={date} setDate={setDate} title="Select Date" />
           <View style={styles.timePickerContainer}>
             <Text style={styles.label}>Select Start Time</Text>

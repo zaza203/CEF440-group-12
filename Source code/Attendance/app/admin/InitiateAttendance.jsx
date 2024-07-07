@@ -50,13 +50,13 @@ const InitiateAttendance = () => {
         <CustomDropdown
           title="Select Session"
           data={sessions.map(session => `${session.courseId} - ${session.date} ${formatTime(session.startTime)}-${formatTime(session.endTime)}`)}
-          placeholder="Session"
+          placeholder=" Select Session"
           onSelect={setSelectedSession}
         />
         <CustomDropdown
           title="Select Time Limit"
           data={timeLimits.map(limit => `${limit} minutes`)}
-          placeholder="Time Limit"
+          placeholder="Set Time Limit"
           onSelect={(item) => setSelectedTimeLimit(parseInt(item))}
         />
         <CustomButton
