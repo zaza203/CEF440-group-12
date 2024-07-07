@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React from 'react'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import FormField from '../../components/FormField'
 import CustomDropdown from '../../components/CustomDropDown'
 import CustomButton from '../../components/CustomButton'

@@ -63,11 +63,11 @@ const Login = () => {
     }
   };
   // this code checks if the user has already signed in to prevent resigning-in
-  // useEffect(() => {
-  //   if (user) {
-  //     router.push('Dashboard'); // Redirect to Dashboard if already logged in
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user) {
+      router.push('TDashboard'); // Redirect to Dashboard if already logged in
+    }
+  }, [user]);
 
   if (isLoading) {
     return (

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, Alert, StyleSheet, Vibration } from "react-native";
+import { View, Text, Alert, StyleSheet, Vibration ,TouchableOpacity,Image} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as LocalAuthentication from 'expo-local-authentication';
 import { useNavigation } from "expo-router";
 import { AuthContext } from '../../context/AuthContext';
 import CustomDropdown from "../../components/CustomDropDown";
 import { markAttendance } from "../../context/api";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { icons } from "../../constants";
 
 const Attend = ({ route }) => {
   const { fetchAllUsers } = useContext(AuthContext);
@@ -18,6 +20,7 @@ const Attend = ({ route }) => {
   const [fingerprintStatus, setFingerprintStatus] = useState(null);
   useEffect(() => {
     fetchStudents();
+
 
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
@@ -33,6 +36,27 @@ const Attend = ({ route }) => {
 
     return () => clearInterval(timer);
   }, []);
+
+
+  const handleFingerprintScan = async () => {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+
+    if (!hasHardware || !isEnrolled) {
+      Alert.alert('Error', 'Fingerprint scanning is not available on this device');
+      return;
+    }
+
+    const result = await LocalAuthentication.authenticateAsync({
+      promptMessage: 'Scan your fingerprint',
+    });
+
+    if (result.success) {
+      Alert.alert('Success', 'Fingerprint captured successfully!');
+    } else {
+      Alert.alert('Error', 'Failed to capture fingerprint');
+    }
+  };
 
   const fetchStudents = async () => {
     try {
@@ -126,16 +150,16 @@ const Attend = ({ route }) => {
           onSelect={setSelectedStudent}
         />
         {selectedStudent && (
-          <View style={styles.fingerprintContainer}>
-            {renderFingerprintStatus()}
-            <Text style={styles.fingerprintText}>
-              {fingerprintStatus === 'success'
-                ? "Authenticated"
-                : fingerprintStatus === 'fail'
-                ? "Try Again"
-                : "Place Finger on Scanner"}
-            </Text>
-          </View>
+                   <TouchableOpacity
+                   onPress={handleFingerprintScan}
+                   className="items-center mb-4"
+                 >
+                   <Image
+                     source={icons.fingerprint}
+                     className="w-20 h-20"
+                   />
+                   <Text className="text-center mt-2">Fingerprint</Text>
+                 </TouchableOpacity>
         )}
       </View>
     </SafeAreaView>
