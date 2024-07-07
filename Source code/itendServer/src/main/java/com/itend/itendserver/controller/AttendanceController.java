@@ -36,4 +36,9 @@ public class AttendanceController {
         LocalTime sessionStartTime = LocalTime.parse(startTime);
         return attendanceService.getAttendanceBySessionDetails(courseId, sessionDate, sessionStartTime);
     }
+
+    @GetMapping("/all")
+    public List<Attendance> getAllAttendance() {
+        return attendanceService.getAllAttendance();
+    }
 }
