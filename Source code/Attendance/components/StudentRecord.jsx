@@ -2,11 +2,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const StudentRecord = ({ name, courseSessionId, status }) => {
+const StudentRecord = ({ name, status }) => {
   return (
     <View style={styles.recordContainer}>
       <Text style={styles.nameText}>{name}</Text>
-      <Text style={styles.sessionText}>Session ID: {courseSessionId}</Text>
       <View style={[styles.statusContainer, status === 'Present' ? styles.present : styles.absent]}>
         <Text style={styles.statusText}>{status}</Text>
       </View>

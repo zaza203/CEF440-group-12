@@ -1,102 +1,190 @@
-import {
-  View,
-  Text,
-  Image,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet
-} from "react-native";
-import {React,useState}from "react";
+import React, { useState, useEffect } from "react";
+import { View, Text, FlatList, Alert, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FlatList } from "react-native";
-import { icons } from "../../constants";
-import { Link, router,useNavigation } from "expo-router";
-import SetDate from "../../components/SetDate";
 import CustomDropdown from "../../components/CustomDropDown";
 import CustomButton from "../../components/CustomButton";
 import StudentRecord from "../../components/StudentRecord";
+import { getAllAttendances } from "../../context/api";
+import * as Print from 'expo-print';
+import * as FileSystem from 'expo-file-system';
+
+
 
 const ViewAttendance = () => {
+  const [selectedSession, setSelectedSession] = useState("");
+  const [sessions, setSessions] = useState([]);
+  const [show, setShow] = useState(false);
+  const [studentData, setStudentData] = useState([]);
+  const [allAttendances, setAllAttendances] = useState([]);
+  const [pdfUri, setPdfUri] = useState(null);
 
-  const [fromDate, setFromDate] = useState(null);
-  const [toDate, setToDate] = useState(null);
-  const Courses = ['CEF440', 'CEF476', 'CEF444', 'CEF438', 'CEF450'];
-  const [selectedItem, setSelectedItem] = useState('');
-  const [show, setShow] = useState(false)
+  useEffect(() => {
+    fetchAttendances();
+  }, []);
 
-  const studentData = [
-    { id: '1', name: 'John Doe', courseSessionId: 'CS101', status: 'Present' },
-    { id: '2', name: 'Jane Smith', courseSessionId: 'CS102', status: 'Absent' },
-    { id: '3', name: 'Alice Johnson', courseSessionId: 'CS101', status: 'Present' },
-    { id: '4', name: 'Bob Brown', courseSessionId: 'CS102', status: 'Absent' },
-    { id: '5', name: 'Charlie Davis', courseSessionId: 'CS103', status: 'Present' },
-    { id: '6', name: 'Diana Evans', courseSessionId: 'CS101', status: 'Absent' },
-    { id: '7', name: 'Ethan Ford', courseSessionId: 'CS104', status: 'Present' },
-    { id: '8', name: 'Fiona Green', courseSessionId: 'CS102', status: 'Absent' },
-    { id: '9', name: 'George Harris', courseSessionId: 'CS103', status: 'Present' },
-    { id: '10', name: 'Hannah Irving', courseSessionId: 'CS101', status: 'Absent' },
-    { id: '11', name: 'Ian Jackson', courseSessionId: 'CS104', status: 'Present' },
-    { id: '12', name: 'Julia King', courseSessionId: 'CS103', status: 'Absent' },
-    { id: '13', name: 'Kevin Lewis', courseSessionId: 'CS102', status: 'Present' },
-    { id: '14', name: 'Laura Miller', courseSessionId: 'CS101', status: 'Absent' },
-    { id: '15', name: 'Michael Nelson', courseSessionId: 'CS104', status: 'Present' },
-  ];
+  const fetchAttendances = async () => {
+    try {
+      const response = await getAllAttendances();
+      if (response.status === 200) {
+        setAllAttendances(response.data);
+        const sessionData = response.data.map(
+          (attendance) =>
+            `${attendance.courseId} ${attendance.date} ${attendance.startTime}`
+        );
+        setSessions(sessionData);
+      } else {
+        Alert.alert("Error", "Failed to fetch attendance records");
+      }
+    } catch (error) {
+      console.error("Error fetching attendance records", error);
+      Alert.alert("Error", "Failed to fetch attendance records");
+    }
+  };
 
-  const navigation = useNavigation()
+  const handleViewRecords = () => {
+    try {
+      // Extract the courseId, date, and time from the selected session
+      const [courseId, date, startTime] = selectedSession.split(" ");
 
-  return (
-    <SafeAreaView className="">
-      <ScrollView  >
-        <View className="h-full w-full ">
+      console.log(
+        `courseId: ${courseId}, date: ${date}, startTime: ${startTime}`
+      );
 
-          <Text>Enter course Title</Text>
+      const attendance = allAttendances.find(
+        (att) =>
+          att.courseId === courseId &&
+          att.date === date &&
+          att.startTime === startTime
+      );
 
-        <CustomDropdown
-        title="Enter Course"
-          data={Courses}
-          placeholder="Course"
-          onSelect={(item) => setSelectedItem(item)}
-        />
+      if (attendance) {
+        setStudentData(attendance.studentIds.map((id) => ({ id })));
+        setShow(true);
+      } else {
+        Alert.alert("Error", "No matching attendance records found");
+      }
+    } catch (error) {
+      console.error("Error fetching attendance records", error);
+      Alert.alert("Error", "Failed to fetch attendance records");
+    }
+  };
 
-        <SetDate date={fromDate} setDate={setFromDate} title="From" />
-        <SetDate date={toDate} setDate={setToDate} title="To" />
+  const status = "Present";
+
+  const formatDate = (dateStr) => {
+    const dateObj = new Date(dateStr);
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return dateObj.toLocaleDateString("en-US", options);
+  };
+
+  const formatTime = (timeStr) => {
+    const dateObj = new Date(`1970-01-01T${timeStr}`);
+    const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+    return dateObj.toLocaleTimeString('en-US', options);
+  };
   
-        <CustomButton title="View Records"  
-         handlepress={() => {
-         setShow(true)
-          
-        }}
-        />
+  const generatePDF = async () => {
+    const htmlContent = `
+      <html>
+        <body>
+          <h1>Attendance Records</h1>
+          <ul>
+            ${studentData.map((student) => `<li>${student.id}</li>`).join("")}
+          </ul>
+        </body>
+      </html>
+    `;
+
+    try {
+      const { uri } = await Print.printToFileAsync({ html: htmlContent });
+      console.log(`PDF generated at: ${uri}`);
+      Alert.alert('Success', 'PDF generated successfully!');
+    } catch (error) {
+      console.error('Error generating PDF', error);
+      Alert.alert('Error', 'Failed to generate PDF');
+    }
+  };
 
 
-     {show? 
-      <>
-        <Text style={styles.title}>Attendance Records</Text>
+  const openPDF = async () => {
+    try {
+      if (pdfUri) {
+        await FileSystem.getContentUriAsync(pdfUri).then(cUri => {
+          FileSystem.openAsync(cUri.uri);
+        });
+      } else {
+        Alert.alert('Error', 'No PDF available to open.');
+      }
+    } catch (error) {
+      console.error('Error opening PDF', error);
+      Alert.alert('Error', 'Failed to open PDF');
+    }
+  };
+
+  
+  return (
+    <SafeAreaView className="flex-1">
       <FlatList
-        data={studentData}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <StudentRecord
-            name={item.name}
-            courseSessionId={item.courseSessionId}
-            status={item.status}
-          />
+        ListHeaderComponent={() => (
+          <View className="p-4">
+            <Text>Select Session to View Attendance</Text>
+            <CustomDropdown
+              title="Select Session"
+              data={sessions}
+              placeholder="Select Session"
+              onSelect={setSelectedSession}
+            />
+            <CustomButton
+              title="View Records"
+              handlepress={handleViewRecords}
+            />
+          <View>
+            <Text>{selectedSession && `${formatDate(selectedSession.split(' ')[1])}, ${formatTime(selectedSession.split(' ')[2])}`}</Text>
+
+            </View>
+          </View>
         )}
+        data={show ? studentData : []}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <>
+            <StudentRecord name={item.id} status={status} />
+          </>
+        )}
+        ListEmptyComponent={() => (
+          <View className="p-4">
+            <Text>No records to display.</Text>
+          </View>
+        )}
+        ListFooterComponent={() =>
+          show && (
+            <View className="p-4">
+                          {pdfUri ? (
+              <TouchableOpacity onPress={openPDF}>
+                <CustomButton title="Open Report" />
+              </TouchableOpacity>
+            ) : (
+              <CustomButton title="Generate Report" handlepress={generatePDF} />
+            )}
+
+            </View>
+          )
+        }
       />
-      <CustomButton title="Generate Report" />
-      </> : null
-}
-          
-        </View>
-      </ScrollView>
     </SafeAreaView>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
-  }})
+    flex: 1,
+    padding: 16,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+});
 
 export default ViewAttendance;
