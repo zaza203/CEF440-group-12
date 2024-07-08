@@ -126,14 +126,22 @@ const AddSession = () => {
     const formattedStartTime = startTime.toTimeString().split(' ')[0];
     const formattedEndTime = endTime.toTimeString().split(' ')[0];
 
+    // const session = {
+    //   courseId: course,
+    //   instructor: lecturer,
+    //   date: formattedDate,
+    //   startTime: formattedStartTime,
+    //   endTime: formattedEndTime,
+    //   createdBy: state.user.uid,
+    //   createdAt: new Date(),
+    // };
+
     const session = {
       courseId: course,
-      instructor: lecturer,
+      lecturer: lecturer,
       date: formattedDate,
       startTime: formattedStartTime,
       endTime: formattedEndTime,
-      createdBy: state.user.uid,
-      createdAt: new Date(),
     };
 
     try {

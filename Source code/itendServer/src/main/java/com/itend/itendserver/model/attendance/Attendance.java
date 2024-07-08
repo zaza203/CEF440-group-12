@@ -2,6 +2,9 @@ package com.itend.itendserver.model.attendance;
 
 import com.itend.itendserver.model.session.Session;
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -9,16 +12,11 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "session_id", nullable = false)
-    private Session session;
-
+    private String courseId;
+    private String date;
+    private String startTime;
     @ElementCollection
     private List<String> studentIds;
-    private String status; // P for present, A for absent
-
-    // Getters and setters
 
     public Long getId() {
         return id;
@@ -28,12 +26,28 @@ public class Attendance {
         this.id = id;
     }
 
-    public Session getSession() {
-        return session;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
     public List<String> getStudentIds() {
@@ -44,21 +58,14 @@ public class Attendance {
         this.studentIds = studentIds;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "Attendance{" +
                 "id=" + id +
-                ", session=" + session +
+                ", courseId='" + courseId + '\'' +
+                ", date=" + date +
+                ", startTime=" + startTime +
                 ", studentIds=" + studentIds +
-                ", status='" + status + '\'' +
                 '}';
     }
 }

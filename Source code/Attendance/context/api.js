@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://192.168.250.196:8080';
+const API_URL = 'http://192.168.43.99:8080';
 
 const api = axios.create({
   baseURL: API_URL,
@@ -13,7 +13,7 @@ export const editSession = (session) => api.put('/sessions', session);
 export const getSessionByLecturer = (lecturer) => api.get(`/sessions?lecturer=${lecturer}`);
 export const getSessionById = (id) => api.get(`/sessions/${id}`);
 
-export const markAttendance = (courseId, studentIds) => api.post(`/attendance?courseId=${courseId}`, studentIds);
+export const markAttendance = (attendance) => api.post('/attendance', attendance);
 export const getAllAttendances = () => api.get('/attendance');
 export const getAttendanceBySessionDetails = (courseId, date, startTime) => api.get(`/attendance?courseId=${courseId}&data=${date}&startTime=${startTime}`);
 

@@ -23,18 +23,13 @@ public class AttendanceController {
     private AttendanceService attendanceService;
 
     @PostMapping
-    public Attendance markAttendance(@RequestParam String courseId, @RequestBody List<String> studentIds) {
-        return attendanceService.markAttendance(courseId, studentIds);
+    public Attendance markAttendance(@RequestBody Attendance attendance) {
+        return attendanceService.markAttendance(attendance);
     }
 
     @GetMapping
-    public Attendance getAttendanceBySessionDetails(
-            @RequestParam String courseId,
-            @RequestParam String date,
-            @RequestParam String startTime) {
-        LocalDate sessionDate = LocalDate.parse(date);
-        LocalTime sessionStartTime = LocalTime.parse(startTime);
-        return attendanceService.getAttendanceBySessionDetails(courseId, sessionDate, sessionStartTime);
+    public Attendance getAttendanceBySessionDetails(@RequestParam String courseId, @RequestParam String date, @RequestParam String startTime) {
+        return attendanceService.getAttendanceBySessionDetails(courseId, date, startTime);
     }
 
     @GetMapping("/all")
