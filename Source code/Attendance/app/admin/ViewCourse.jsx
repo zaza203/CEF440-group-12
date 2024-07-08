@@ -155,6 +155,7 @@ const ViewCourse = () => {
               value={form.code}
               onChangeText={(text) => setForm({ ...form, code: text })}
               editable={false}
+              
             />
             <TextInput
               className="border border-gray-300 rounded p-2 mb-4"
@@ -196,4 +197,5 @@ const ViewCourse = () => {
 };
 
 export default ViewCourse;
+
 
