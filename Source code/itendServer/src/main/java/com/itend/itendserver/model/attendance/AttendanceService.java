@@ -20,22 +20,12 @@ public class AttendanceService {
     @Autowired
     private SessionRepository sessionRepository;
 
-    public Attendance markAttendance(String courseId, List<String> studentIds) {
-        Session session = sessionRepository.findByCourseId(courseId);
-
-        Attendance attendance = new Attendance();
-        attendance.setSession(session);
-        attendance.setStudentIds(studentIds);
-        attendance.setStatus("P");
-
+    public Attendance markAttendance(Attendance attendance) {
         return attendanceRepository.save(attendance);
     }
 
-    public Attendance getAttendanceBySessionDetails(String courseId, LocalDate date, LocalTime startTime) {
-        Session session = sessionRepository.findByCourseIdAndDateAndStartTime(courseId, date, startTime)
-                .orElseThrow(() -> new RuntimeException("Session not found"));
-        return attendanceRepository.findById(session.getId())
-                .orElseThrow(() -> new RuntimeException("Attendance not found"));
+    public Attendance getAttendanceBySessionDetails(String courseId, String date, String startTime) {
+        return attendanceRepository.findByCourseIdAndDateAndStartTime(courseId, date, startTime);
     }
 
     public List<Attendance> getAllAttendance() {

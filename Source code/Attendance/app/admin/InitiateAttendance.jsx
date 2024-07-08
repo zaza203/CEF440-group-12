@@ -41,7 +41,15 @@ const InitiateAttendance = () => {
       Alert.alert("Error", "Please select a session and time limit");
       return;
     }
-    navigation.navigate("attend", { selectedTimeLimit, courseId: selectedSession.courseId });
+    const session = sessions.find(session => 
+      `${session.courseId} - ${session.date} ${formatTime(session.startTime)}-${formatTime(session.endTime)}` === selectedSession
+    );
+    if (session) {
+      navigation.navigate("attend", { selectedTimeLimit, courseId: session.courseId, date: session.date, startTime: session.startTime });
+      console.log(session.courseId);
+    } else {
+      Alert.alert("Error", "Session not found");
+    }
   };
 
   return (

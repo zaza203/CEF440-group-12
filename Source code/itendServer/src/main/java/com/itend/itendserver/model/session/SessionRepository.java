@@ -18,6 +18,6 @@ public interface SessionRepository extends JpaRepository<Session, Long> {
     List<Session> findExistingSession(String courseId, LocalDate date, LocalTime startTime, LocalTime endTime);
 
     @Query("SELECT s FROM Session s WHERE s.courseId = :courseId AND s.date = :date AND s.startTime = :startTime")
-    Optional<Session> findByCourseIdAndDateAndStartTime(String courseId, LocalDate date, LocalTime startTime);
+    Session findByCourseIdAndDateAndStartTime(String courseId, LocalDate date, LocalTime startTime);
 }
 

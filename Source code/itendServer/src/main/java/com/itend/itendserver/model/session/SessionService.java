@@ -53,7 +53,7 @@ public class SessionService {
         return sessionRepository.findAll();
     }
 
-    public Optional<Session> getSessionByDetails(String courseId, LocalDate date, LocalTime startTime) {
+    public Session getSessionByDetails(String courseId, LocalDate date, LocalTime startTime) {
         return sessionRepository.findByCourseIdAndDateAndStartTime(courseId, date, startTime);
     }
 }

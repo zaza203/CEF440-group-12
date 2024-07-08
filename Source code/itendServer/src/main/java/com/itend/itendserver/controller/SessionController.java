@@ -57,7 +57,7 @@ public class SessionController {
     }
 
     @GetMapping("/details")
-    public Optional<Session> getSessionByDetails(
+    public Session getSessionByDetails(
             @RequestParam String courseId,
             @RequestParam String date,
             @RequestParam String startTime) {
