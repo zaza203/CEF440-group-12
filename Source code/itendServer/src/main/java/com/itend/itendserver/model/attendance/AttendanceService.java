@@ -31,4 +31,21 @@ public class AttendanceService {
     public List<Attendance> getAllAttendance() {
         return attendanceRepository.findAll();
     }
+
+
+    public Attendance editAttendance(String courseId, String date, String startTime, String studentId) {
+        Attendance attendance = attendanceRepository.findByCourseIdAndDateAndStartTime(courseId, date, startTime);
+        if (attendance != null) {
+            List<String> studentIds = attendance.getStudentIds();
+            if (!studentIds.contains(studentId)) {
+                studentIds.add(studentId);
+                attendance.setStudentIds(studentIds);
+                return attendanceRepository.save(attendance);
+            } else {
+                throw new RuntimeException("Student ID already present in the attendance list");
+            }
+        } else {
+            throw new RuntimeException("Attendance not found for the given session details");
+        }
+    }
 }

@@ -16,6 +16,7 @@ export const getSessionById = (id) => api.get(`/sessions/${id}`);
 export const markAttendance = (attendance) => api.post('/attendance', attendance);
 export const getAllAttendances = () => api.get('/attendance/all');
 export const getAttendanceBySessionDetails = (courseId, date, startTime) => api.get(`/attendance?courseId=${courseId}&date=${date}&startTime=${startTime}`);
+export const editAttendance = (courseId, date, startTime, studentId) => api.put(`/attendance/edit?courseId=${courseId}&date=${date}&startTime=${startTime}&studentId=${studentId}`)
 
 export const getAllCourses = () => api.get('/courses');
 export const getCoursesByLecturer = (lecturer) => api.get(`/courses/${lecturer}`);

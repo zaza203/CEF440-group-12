@@ -6,6 +6,7 @@ import com.itend.itendserver.model.attendance.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,5 +36,14 @@ public class AttendanceController {
     @GetMapping("/all")
     public List<Attendance> getAllAttendance() {
         return attendanceService.getAllAttendance();
+    }
+
+    @PutMapping("/edit")
+    public Attendance editAttendance(
+            @RequestParam String courseId,
+            @RequestParam String date,
+            @RequestParam String startTime,
+            @RequestParam String studentId) {
+        return attendanceService.editAttendance(courseId, date, startTime, studentId);
     }
 }
