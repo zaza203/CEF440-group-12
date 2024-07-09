@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, FlatList, Alert, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomDropdown from "../../components/CustomDropDown";
 import CustomButton from "../../components/CustomButton";
-import StudentRecord from "../../components/StudentRecord";
 import { getAllAttendances } from "../../context/api";
-import * as Print from 'expo-print';
-import * as FileSystem from 'expo-file-system';
-
-
+import * as Print from "expo-print";
+import * as Sharing from "expo-sharing";
 
 const ViewAttendance = () => {
   const [selectedSession, setSelectedSession] = useState("");
@@ -43,7 +47,6 @@ const ViewAttendance = () => {
 
   const handleViewRecords = () => {
     try {
-      // Extract the courseId, date, and time from the selected session
       const [courseId, date, startTime] = selectedSession.split(" ");
 
       console.log(
@@ -79,49 +82,63 @@ const ViewAttendance = () => {
 
   const formatTime = (timeStr) => {
     const dateObj = new Date(`1970-01-01T${timeStr}`);
-    const options = { hour: 'numeric', minute: '2-digit', hour12: true };
-    return dateObj.toLocaleTimeString('en-US', options);
+    const options = { hour: "numeric", minute: "2-digit", hour12: true };
+    return dateObj.toLocaleTimeString("en-US", options);
   };
-  
+
   const generatePDF = async () => {
     const htmlContent = `
       <html>
+      <head>
+      </head>
+
         <body>
-          <h1>Attendance Records</h1>
-          <ul>
-            ${studentData.map((student) => `<li>${student.id}</li>`).join("")}
-          </ul>
+          <h1>Attendance Records for </h1>
+          <h3> ${
+            selectedSession &&
+            `${formatDate(selectedSession.split(" ")[1])}, ${formatTime(
+              selectedSession.split(" ")[2]
+            )}`
+          }</h3>
+          <div>  
+           <p>Student id Number</p>   
+           <ul>
+            ${studentData
+              .map(
+                (student) =>
+                  `<li style="color:blue,  ">${student.id}             status    <span style="color:green; ">Present</span></li>`
+              )
+              .join("")}
+           </ul>
+          </div>  
         </body>
       </html>
     `;
 
     try {
       const { uri } = await Print.printToFileAsync({ html: htmlContent });
+      setPdfUri(uri);
       console.log(`PDF generated at: ${uri}`);
-      Alert.alert('Success', 'PDF generated successfully!');
+      Alert.alert("Success", "PDF generated successfully!");
     } catch (error) {
-      console.error('Error generating PDF', error);
-      Alert.alert('Error', 'Failed to generate PDF');
+      console.error("Error generating PDF", error);
+      Alert.alert("Error", "Failed to generate PDF");
     }
   };
 
-
-  const openPDF = async () => {
-    try {
-      if (pdfUri) {
-        await FileSystem.getContentUriAsync(pdfUri).then(cUri => {
-          FileSystem.openAsync(cUri.uri);
-        });
-      } else {
-        Alert.alert('Error', 'No PDF available to open.');
+  const sharePDF = async () => {
+    if (pdfUri) {
+      try {
+        await Sharing.shareAsync(pdfUri);
+      } catch (error) {
+        console.error("Error sharing PDF", error);
+        Alert.alert("Error", "Failed to share PDF");
       }
-    } catch (error) {
-      console.error('Error opening PDF', error);
-      Alert.alert('Error', 'Failed to open PDF');
+    } else {
+      Alert.alert("Error", "No PDF available to share.");
     }
   };
 
-  
   return (
     <SafeAreaView className="flex-1">
       <FlatList
@@ -138,18 +155,23 @@ const ViewAttendance = () => {
               title="View Records"
               handlepress={handleViewRecords}
             />
-          <View>
-            <Text>{selectedSession && `${formatDate(selectedSession.split(' ')[1])}, ${formatTime(selectedSession.split(' ')[2])}`}</Text>
-
+            <View>
+              <Text>
+                {selectedSession &&
+                  `${formatDate(selectedSession.split(" ")[1])}, ${formatTime(
+                    selectedSession.split(" ")[2]
+                  )}`}
+              </Text>
             </View>
           </View>
         )}
         data={show ? studentData : []}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <>
-            <StudentRecord name={item.id} status={status} />
-          </>
+          <View className="flex-row justify-between p-2 border-b border-gray-300">
+            <Text className="text-lg">{item.id}</Text>
+            <Text className="text-lg text-green-600">Present</Text>
+          </View>
         )}
         ListEmptyComponent={() => (
           <View className="p-4">
@@ -159,14 +181,16 @@ const ViewAttendance = () => {
         ListFooterComponent={() =>
           show && (
             <View className="p-4">
-                          {pdfUri ? (
-              <TouchableOpacity onPress={openPDF}>
-                <CustomButton title="Open Report" />
-              </TouchableOpacity>
-            ) : (
-              <CustomButton title="Generate Report" handlepress={generatePDF} />
-            )}
-
+              {pdfUri ? (
+                <TouchableOpacity onPress={sharePDF}>
+                  <CustomButton title="Open Report" />
+                </TouchableOpacity>
+              ) : (
+                <CustomButton
+                  title="Generate Report"
+                  handlepress={generatePDF}
+                />
+              )}
             </View>
           )
         }
