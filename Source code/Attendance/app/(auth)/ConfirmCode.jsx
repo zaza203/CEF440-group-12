@@ -74,9 +74,7 @@ const ConfirmCode = () => {
           <View className="items-center">
             <TouchableOpacity
               className="bg-primary mt-5   w-[160px] py-2 px-4   rounded-full "
-              onPress={ 
-                someFunction 
-                }
+              onPress={someFunction}
             >
               <Text className="font-pregular text-lg text-white text-center">confirm</Text>
             </TouchableOpacity>

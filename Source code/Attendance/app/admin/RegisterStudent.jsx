@@ -16,7 +16,6 @@ import { icons } from '../../constants';
 import FormField from '../../components/FormField';
 import CustomButton from '../../components/CustomButton';
 import { StatusBar } from 'expo-status-bar';
-import 'tailwindcss/tailwind.css';
 
 const RegisterStudent = () => {
   const navigation = useNavigation();
@@ -90,9 +89,6 @@ const RegisterStudent = () => {
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
         <View className="mx-2">
-          <TouchableOpacity onPress={() => navigation.goBack()} className="mb-4">
-            <Text className="text-blue-500">Back</Text>
-          </TouchableOpacity>
           <View className="items-center">
             <Text className="text-2xl font-semibold">Student Registration</Text>
           </View>
@@ -135,11 +131,13 @@ const RegisterStudent = () => {
             />
             <Text className="text-center mt-2">Fingerprint</Text>
           </TouchableOpacity>
+          <View className="items-center">
           <CustomButton
             title="Register"
             handlepress={handleRegister}
             containerStyles='mt-8 w-[250]'
           />
+          </View>
         </View>
         <StatusBar style='light' />
       </ScrollView>
