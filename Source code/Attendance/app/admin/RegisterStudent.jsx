@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -6,27 +6,27 @@ import {
   Image,
   Alert,
   ScrollView,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
-import * as LocalAuthentication from 'expo-local-authentication';
-import { AuthContext } from '../../context/AuthContext';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
-import { icons } from '../../constants';
-import FormField from '../../components/FormField';
-import CustomButton from '../../components/CustomButton';
-import { StatusBar } from 'expo-status-bar';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+import * as LocalAuthentication from "expo-local-authentication";
+import { AuthContext } from "../../context/AuthContext";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { icons } from "../../constants";
+import FormField from "../../components/FormField";
+import CustomButton from "../../components/CustomButton";
+import { StatusBar } from "expo-status-bar";
 
 const RegisterStudent = () => {
   const navigation = useNavigation();
   const { state } = useContext(AuthContext);
   const firestore = getFirestore();
   const [form, setForm] = useState({
-    name: '',
-    matriculeNumber: '',
-    email: '',
-    level: '',
-    fingerprintId: ''
+    name: "",
+    matriculeNumber: "",
+    email: "",
+    level: "",
+    fingerprintId: "",
   });
 
   const handleFingerprintScan = async () => {
@@ -34,22 +34,25 @@ const RegisterStudent = () => {
     const isEnrolled = await LocalAuthentication.isEnrolledAsync();
 
     if (!hasHardware || !isEnrolled) {
-      Alert.alert('Error', 'Fingerprint scanning is not available on this device');
+      Alert.alert(
+        "Error",
+        "Fingerprint scanning is not available on this device"
+      );
       return;
     }
 
     const result = await LocalAuthentication.authenticateAsync({
-      promptMessage: 'Scan your fingerprint',
+      promptMessage: "Scan your fingerprint",
     });
 
     if (result.success) {
       const templateId = `fp-${Date.now()}`;
       setForm({ ...form, fingerprintId: templateId });
 
-      console.log('Fingerprint Template ID:', templateId);
-      Alert.alert('Success', 'Fingerprint captured successfully!');
+      console.log("Fingerprint Template ID:", templateId);
+      Alert.alert("Success", "Fingerprint captured successfully!");
     } else {
-      Alert.alert('Error', 'Failed to capture fingerprint');
+      Alert.alert("Error", "Failed to capture fingerprint");
     }
   };
 
@@ -57,31 +60,34 @@ const RegisterStudent = () => {
     const { name, matriculeNumber, email, level, fingerprintId } = form;
 
     if (!name || !matriculeNumber || !email || !level || !fingerprintId) {
-      Alert.alert('Error', 'All fields must be filled, and fingerprint must be captured');
+      Alert.alert(
+        "Error",
+        "All fields must be filled, and fingerprint must be captured"
+      );
       return;
     }
 
     try {
-      await addDoc(collection(firestore, 'students'), {
+      await addDoc(collection(firestore, "students"), {
         name,
         matriculeNumber,
         email,
         level,
         fingerprintId,
-        createdBy: state.user.uid,
+        createdBy: state.user.email,
         createdAt: new Date(),
       });
-      Alert.alert('Success', 'Student registered successfully!');
+      Alert.alert("Success", "Student registered successfully!");
       setForm({
-        name: '',
-        matriculeNumber: '',
-        email: '',
-        level: '',
-        fingerprintId: ''
+        name: "",
+        matriculeNumber: "",
+        email: "",
+        level: "",
+        fingerprintId: "",
       });
     } catch (error) {
-      console.error('Error adding student: ', error);
-      Alert.alert('Error', 'Failed to register student. Please try again.');
+      console.error("Error adding student: ", error);
+      Alert.alert("Error", "Failed to register student. Please try again.");
     }
   };
 
@@ -125,21 +131,18 @@ const RegisterStudent = () => {
             onPress={handleFingerprintScan}
             className="items-center mb-4"
           >
-            <Image
-              source={icons.fingerprint}
-              className="w-20 h-20"
-            />
+            <Image source={icons.fingerprint} className="w-20 h-20" />
             <Text className="text-center mt-2">Fingerprint</Text>
           </TouchableOpacity>
           <View className="items-center">
-          <CustomButton
-            title="Register"
-            handlepress={handleRegister}
-            containerStyles='mt-8 w-[250]'
-          />
+            <CustomButton
+              title="Register"
+              handlepress={handleRegister}
+              containerStyles="mt-8 w-[250]"
+            />
           </View>
         </View>
-        <StatusBar style='light' />
+        <StatusBar style="light" />
       </ScrollView>
     </SafeAreaView>
   );
